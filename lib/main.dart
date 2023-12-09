@@ -8,9 +8,10 @@ import 'package:qr/Utils/Permissions.dart';
 final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 bool debugMode = true;
 
-void main()
+void main() async
 {
-  Permissions.allRequests();
+  WidgetsFlutterBinding.ensureInitialized();
+  //Permissions.allRequests();
 
   Internet.gecBaslat(splashSure + 1000);
 

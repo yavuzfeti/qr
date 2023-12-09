@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:qr/Components/Base.dart';
 import 'dart:async';
 import 'package:qr/Components/Themes.dart';
+import 'package:qr/Screens/Home.dart';
+import 'package:qr/Screens/Login.dart';
 import 'package:qr/Utils/Network.dart';
 
 int splashSure = 1000;
@@ -29,11 +32,11 @@ class _SplashState extends State<Splash> {
     {
       if(session == "1")
       {
-        //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SessionLayer()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Base()));
       }
       else
       {
-        //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeLayer()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
       }
     });
   }
@@ -41,7 +44,7 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Themes.secondaryColor,
+      backgroundColor: Themes.lightGrey,
       body: Center(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 100),

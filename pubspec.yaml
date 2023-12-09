@@ -32,6 +32,11 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: lib/Assets/Fonts/Inter/Inter-Regular.ttf
+        - asset: lib/Assets/Fonts/Inter/Inter-Bold.ttf
 
   assets:
     - lib/Assets/Images/

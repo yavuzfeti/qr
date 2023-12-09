@@ -21,10 +21,18 @@ class _TopBarState extends State<TopBar> {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      backgroundColor: Themes.secondaryColor,
+      backgroundColor: Themes.back,
       centerTitle: true,
       toolbarHeight: topBarHeight,
-      title: Text(widget.title, style: const TextStyle(color: Themes.light),),
+      title: widget.title == "home"
+          ? Row(
+        children: [
+          Text("Merhaba ",style: const TextStyle(color: Themes.text),),
+          Text("Çetin",style: const TextStyle(color: Themes.text),),
+          Icon(Icons.front_hand_sharp,color: Themes.mainColor,)
+        ],
+      )
+          : Text(widget.title,style: const TextStyle(color: Themes.text,fontWeight: FontWeight.bold),),
       actions: [],
     );
   }

@@ -4,41 +4,27 @@ import 'package:qr/main.dart';
 
 class Sheet
 {
-  static show(String mesaj,{IconData? icon}) async
+  static show(List<Widget> items) async
   {
     showModalBottomSheet(
       context: navKey.currentState!.context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (BuildContext context) => StatefulBuilder(
-        builder: (BuildContext bottomContext, StateSetter updateView) =>
-            DraggableScrollableSheet(
-                initialChildSize: 0.9,
-                maxChildSize: 1,
-                expand: true,
-                builder:
-                    (BuildContext context, ScrollController scrollController) {
-                  return SingleChildScrollView(
-                    controller: scrollController,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Themes.back,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                      ),
-                      height: MediaQuery.sizeOf(context).height,
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 100),
-                      child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: []
-                      ),
-                    ),
-                  );
-                }),
+      backgroundColor: Themes.transparent,
+      builder: (BuildContext context) => Container(
+        decoration: const BoxDecoration(
+          color: Themes.back,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        width: double.infinity,
+        padding:
+        const EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: items,
+        ),
       ),
     );
   }
