@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:qr/Components/Sheet.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Components/TopBar.dart';
+import 'package:qr/Screens/Login.dart';
+import 'package:qr/Utils/Network.dart';
 
 class Hesap extends StatefulWidget {
   const Hesap({super.key});
@@ -95,7 +97,11 @@ class _HesapState extends State<Hesap> {
               },
               child: Text("Hesabımı sil",style: TextStyle(color: Themes.red),)),
           TextButton.icon(
-              onPressed: (){},
+              onPressed: ()
+              {
+                storage.deleteAll();
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
+              },
             icon: Icon(Icons.logout_rounded,color: Themes.red,),
             label: Text("Çıkış Yap"),
           ),
