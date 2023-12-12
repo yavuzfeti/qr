@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:qr/Components/Alert.dart';
 import 'package:qr/Components/Sheet.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Components/TopBar.dart';
 import 'package:qr/Screens/Login.dart';
 import 'package:qr/Utils/Network.dart';
+import 'package:qr/main.dart';
 
 class Hesap extends StatefulWidget {
   const Hesap({super.key});
@@ -13,6 +15,33 @@ class Hesap extends StatefulWidget {
 }
 
 class _HesapState extends State<Hesap> {
+
+  @override
+  void initState() {
+    super.initState();
+    al();
+  }
+
+  String? adSoyad;
+  String? mail;
+  String? sifre;
+  String? telefon;
+
+  bool loading = true;
+
+  al() async
+  {
+    setState(() {
+      loading = true;
+    });
+    adSoyad = "${await storage.read(key: "name")} ${await storage.read(key: "surname")}";
+    mail = await storage.read(key: "email") ?? "";
+    telefon = "+${await storage.read(key: "phone_code")}${await storage.read(key: "phone")}";
+    sifre = "*" * (await storage.read(key: "password") ?? "***").length;
+    setState(() {
+      loading = false;
+    });
+  }
 
   Container con(String text1, String text2, Widget? oge) {
     return Container(
@@ -54,10 +83,12 @@ class _HesapState extends State<Hesap> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopBar("Hesap Kimliği ayarları"),
-      body: ListView(
+      body: loading
+          ? Center(child: CircularProgressIndicator(),)
+          : ListView(
         children: [
-          con("Adınız Soyadınız", "Çetin Karaca", null),
-          con("E-Posta", "cetinkaraca@mail.com",
+          con("Adınız Soyadınız", adSoyad!, null),
+          con("E-Posta", mail!,
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
@@ -69,8 +100,8 @@ class _HesapState extends State<Hesap> {
                 child: Text("E-Posta Adresini Doğrula")
             ),
           ),
-          con("Şifre", "**********", null),
-          con("Cep Telefonu", "+905301234587", null),
+          con("Şifre", sifre!, null),
+          con("Cep Telefonu", telefon!, null),
           TextButton(
               onPressed: () async
               {
@@ -97,10 +128,17 @@ class _HesapState extends State<Hesap> {
               },
               child: Text("Hesabımı sil",style: TextStyle(color: Themes.red),)),
           TextButton.icon(
-              onPressed: ()
+              onPressed: () async
               {
-                storage.deleteAll();
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
+                await Alert.show(title: "Çıkış Yap",content: Text("Çıkış yapmak istediğinize emin misiniz?",style: TextStyle(color: Themes.light),),funLabel: "Çık",fun: ()
+                {
+                  storage.deleteAll();
+                  Navigator.pushAndRemoveUntil(
+                    navKey.currentState!.context,
+                    MaterialPageRoute(builder: (context) => Login()),
+                        (Route<dynamic> route) => false,
+                  );
+                });
               },
             icon: Icon(Icons.logout_rounded,color: Themes.red,),
             label: Text("Çıkış Yap"),

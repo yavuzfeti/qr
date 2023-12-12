@@ -76,7 +76,7 @@ class Themes
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: mainColor,
+        backgroundColor: secondaryColor,
         foregroundColor: light,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -89,15 +89,6 @@ class Themes
         primary: mainColor,
       ),
     ),
-    cardTheme: const CardTheme(
-      color: secondaryColor,
-      elevation: 4,
-    ),
-    dividerColor: secondaryColor,
-    tabBarTheme: const TabBarTheme(
-      labelColor: light,
-      unselectedLabelColor: grey,
-    ),
     appBarTheme: const AppBarTheme(
       iconTheme: IconThemeData(
         color: text,
@@ -109,6 +100,7 @@ class Themes
       secondary: secondaryColor,
       onSecondary: Colors.black,
     ),
+    splashColor: mainSwatch[100],
     canvasColor: light,
     cardColor: secondaryColor,
     primaryColor: mainColor,

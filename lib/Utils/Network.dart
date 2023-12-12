@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:qr/main.dart';
 
@@ -25,6 +28,7 @@ class Network
   Future<dynamic> process (String process, String? adres, dynamic parametre, dynamic data) async
   {
     Response? response;
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {client.badCertificateCallback = (X509Certificate cert, String host, int port) => true; return client;};
     try
     {
       adres = adres == null ? "" : "/$adres";
@@ -32,46 +36,30 @@ class Network
       {
         case "Get":
           response = await dio.get("$baseUrl$url$adres", queryParameters: parametre, data: data);
-          debug(process, response, baseUrl+url+adres, parametre, data);
           return response.data;
 
         case "Post":
           response = await dio.post("$baseUrl$url$adres", queryParameters: parametre, data: data);
-          debug(process, response, baseUrl+url+adres, parametre, data);
           return response.data;
 
         case "Put":
           response = await dio.put("$baseUrl$url$adres", queryParameters: parametre, data: data);
-          debug(process, response, baseUrl+url+adres, parametre, data);
           return response.data;
 
         case "Delete":
           response = await dio.delete("$baseUrl$url$adres", queryParameters: parametre, data: data);
-          debug(process, response, baseUrl+url+adres, parametre, data);
           return response.data;
 
         default:
-          debug(process, response, baseUrl+url+adres, parametre, data);
       }
     }
     on DioError catch (e)
     {
-      debug(process, response, baseUrl+url+adres!, parametre, data);
-      throw e.response!.toString();
+      rethrow;
     }
     catch (e)
     {
       rethrow;
-    }
-  }
-
-  debug(String? process, Response? response, String? link, dynamic parametre, dynamic data)
-  {
-    if(debugMode)
-    {
-      print(" \n$process | KOD: ${response?.statusCode.toString()} | URL: $link | PARAMETRE: $parametre\n ");
-      print("GÖNDERİLEN VERİ: ${data.toString()}\n ");
-      print("ALINAN VERİ: ${response?.data.toString()}\n ");
     }
   }
 }

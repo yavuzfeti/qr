@@ -18,8 +18,7 @@ class Sheet
           ),
         ),
         width: double.infinity,
-        padding:
-        const EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+        padding: const EdgeInsets.all(50),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
