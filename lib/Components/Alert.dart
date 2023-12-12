@@ -16,14 +16,14 @@ class Alert {
       builder: (alertContext) => WillPopScope(
         onWillPop: () async => barrier ?? true,
         child: AlertDialog(
-          backgroundColor: Themes.secondaryColor,
+          backgroundColor: Themes.light,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(25),
           ),
           title: title != null
               ? Text(
             title,
-            style: const TextStyle(color: Themes.light),
+            style: const TextStyle(color: Themes.dark),
           )
               : null,
           content: content,
@@ -33,7 +33,7 @@ class Alert {
                 onPressed: () {
                   Navigator.of(alertContext).pop();
                 },
-                child: const Text(style: TextStyle(color: Themes.light), "Geri"),
+                child: const Text(style: TextStyle(color: Themes.dark), "Geri"),
               ),
             if(funLabel!=null)
               TextButton(
@@ -41,7 +41,7 @@ class Alert {
                   fun();
                 },
                 child: Text(
-                    style: const TextStyle(color: Themes.mainColor), funLabel),
+                    style: const TextStyle(color: Themes.secondaryColor), funLabel),
               ),
           ],
         ),

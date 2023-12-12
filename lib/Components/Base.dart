@@ -28,7 +28,7 @@ class _BaseState extends State<Base> {
 
     return WillPopScope(
       onWillPop: () async {
-        return Alert.show(title: "Çık", content: const Text(style: TextStyle(color: Themes.light),"Uygulamadan çıkmak mı istiyorsunuz?"), funLabel: "Çık", fun: (){SystemNavigator.pop();});
+        return Alert.show(title: "Çık", content: const Text(style: TextStyle(color: Themes.dark),"Uygulamadan çıkmak mı istiyorsunuz?"), funLabel: "Çık", fun: (){SystemNavigator.pop();});
       },
       child: Scaffold(
         backgroundColor: Themes.back,

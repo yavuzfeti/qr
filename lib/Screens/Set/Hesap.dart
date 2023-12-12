@@ -130,7 +130,7 @@ class _HesapState extends State<Hesap> {
           TextButton.icon(
               onPressed: () async
               {
-                await Alert.show(title: "Çıkış Yap",content: Text("Çıkış yapmak istediğinize emin misiniz?",style: TextStyle(color: Themes.light),),funLabel: "Çık",fun: ()
+                await Alert.show(title: "Çıkış Yap",content: Text("Çıkış yapmak istediğinize emin misiniz?",style: TextStyle(color: Themes.dark),),funLabel: "Çık",fun: ()
                 {
                   storage.deleteAll();
                   Navigator.pushAndRemoveUntil(

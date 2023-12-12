@@ -85,77 +85,66 @@ class _LoginState extends State<Login> {
     });
   }
 
-  InputDecoration inpdec(IconData icon, String label, String hint, bool P) {
-    return InputDecoration(
-      prefixIconColor: Themes.mainColor,
-      prefixIcon: P ? IconButton(
-          onPressed: passwordIsSecret,
-          icon: Icon(isSecret ? Icons.key_rounded : Icons.key_off_rounded)
-      ): Icon(icon),
-      labelText: label,
-      labelStyle: TextStyle(color: Themes.dark, fontSize: 20),
-      hintText: hint,
-      hintStyle: TextStyle(color: Themes.dark, fontSize: 18),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30),
-        borderSide: BorderSide(
-          color: Themes.mainColor,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30),
-        borderSide: BorderSide(color: Themes.mainColor),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+      body: Column(
+        children: [
+          Stack(
             children: [
-              Image.asset("lib/Assets/Images/logo.png"),
-              SizedBox(height: 25,),
-              Text("Hoşgeldiniz",style: TextStyle(fontSize: 25),),
-              SizedBox(height: 25,),
-              TextField(
-                controller: usernameC,
-                textInputAction: TextInputAction.next,
-                decoration: inpdec(Icons.account_circle_rounded, "Kullanıcı adı", "E-postanızı giriniz", false),
-                onChanged: (v)
-                {
-                  isActiveFun();
-                },
+              Container(
+                width: double.infinity,
+                height: MediaQuery.sizeOf(context).height/2,
+                decoration: BoxDecoration(
+                  color: Themes.back
+                ),
               ),
-              SizedBox(height: 25,),
-              TextField(
-                obscureText: isSecret,
-                textInputAction: TextInputAction.next,
-                controller: passwordC,
-                decoration: inpdec(Icons.key_rounded, "Şifre", "Şifrenizi giriniz", true),
-                onChanged: (v)
-                {
-                  isActiveFun();
-                },
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: MediaQuery.sizeOf(context).height/5,
+                  decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 10,
+                          offset: Offset(-1, -1),
+                        ),
+                      ],
+                    color: Themes.light,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    )
+                  ),
+                  child: Center(child: Text("Hoşgeldiniz!",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)),
+                )
               ),
-              SizedBox(height: 25,),
-              loading
-                  ? Center(child: CircularProgressIndicator())
-                  : ElevatedButton(
-                onPressed: isActive ? login : null,
-                child: Text("GİRİŞ YAP"),
+              Positioned(
+                bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Image.asset("lib/Assets/Images/Torso.png"),
               ),
             ],
           ),
-        ),
-      ),
+          Container(
+            width: double.infinity,
+            height: MediaQuery.sizeOf(context).height/2,
+            decoration: BoxDecoration(
+                color: Themes.light
+            ),
+            child: PageView(
+              children: [
+
+              ],
+            ),
+          ),
+        ],
+      )
     );
   }
 }

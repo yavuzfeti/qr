@@ -9,7 +9,6 @@ class Themes
   static const Color red  = Color(0xffEB004B);
   static const Color orange = Color(0xffff5613);
   static const Color grey = Color(0xff58585B);
-  //static const Color text = Color(0xff2C3D7A);
   static const Color text = dark;
   static const Color lightGrey = Color(0xffF3F3F4);
   static const Color transparent = Colors.transparent;
@@ -100,7 +99,7 @@ class Themes
       secondary: secondaryColor,
       onSecondary: Colors.black,
     ),
-    splashColor: mainSwatch[100],
+    splashColor: secondaryColor,
     canvasColor: light,
     cardColor: secondaryColor,
     primaryColor: mainColor,
