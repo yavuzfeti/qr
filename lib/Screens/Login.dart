@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pin_code_text_field/pin_code_text_field.dart';
 import 'package:qr/Components/Base.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Utils/Network.dart';
@@ -36,7 +37,7 @@ class _LoginState extends State<Login> {
   dynamic response;
   bool loading = false;
 
-  void login() async
+  login() async
   {
     setState(() {
       loading = true;
@@ -85,65 +86,144 @@ class _LoginState extends State<Login> {
     });
   }
 
+  final PageController _pageController = PageController(initialPage: 0);
+
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              Container(
-                width: double.infinity,
-                height: MediaQuery.sizeOf(context).height/2,
-                decoration: BoxDecoration(
-                  color: Themes.back
-                ),
-              ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  height: MediaQuery.sizeOf(context).height/5,
-                  decoration: const BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 10,
-                          offset: Offset(-1, -1),
-                        ),
-                      ],
-                    color: Themes.light,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    )
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: MediaQuery.sizeOf(context).height/2,
+                  decoration: BoxDecoration(
+                    color: Themes.back
                   ),
-                  child: Center(child: Text("Hoşgeldiniz!",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)),
-                )
-              ),
-              Positioned(
-                bottom: 0,
+                ),
+                Positioned(
+                  bottom: 0,
                   left: 0,
                   right: 0,
-                  child: Image.asset("lib/Assets/Images/Torso.png"),
-              ),
-            ],
-          ),
-          Container(
-            width: double.infinity,
-            height: MediaQuery.sizeOf(context).height/2,
-            decoration: BoxDecoration(
-                color: Themes.light
-            ),
-            child: PageView(
-              children: [
-
+                  child: Container(
+                    height: MediaQuery.sizeOf(context).height/5,
+                    decoration: const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10,
+                            offset: Offset(-1, -1),
+                          ),
+                        ],
+                      color: Themes.light,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      )
+                    ),
+                    child: Center(child: Text("Hoşgeldiniz!",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)),
+                  )
+                ),
+                Positioned(
+                  bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Image.asset("lib/Assets/Images/Torso.png"),
+                ),
               ],
             ),
-          ),
-        ],
+            Container(
+              color: Themes.light,
+              child: Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                width: double.infinity,
+                height: MediaQuery.sizeOf(context).height/0,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Themes.lightGrey,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(15),
+                    color: Themes.light,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Text("Telefon NO:"),
+                    ),
+                    Expanded(
+                      child: PageView(
+                        controller: _pageController,
+                        children: [
+                          Center(
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: "5xx xxx xx xx",
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      width: 0,
+                                    )
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: BorderSide(
+                                    width: 0,
+                                  )
+                                )
+                              ),
+                              keyboardType: TextInputType.number,
+                              controller: usernameC,
+                              onChanged: (v)
+                              {
+                                if(usernameC.text.length == 10)
+                                {
+                                  _pageController.animateToPage(
+                                    1,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.easeInOut,
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                        Center(
+                          child: PinCodeTextField(
+                            controller: passwordC,
+                            pinBoxBorderWidth: 0,
+                          pinBoxColor: Themes.lightGrey,
+                          pinBoxRadius: 15,
+                          maxLength: 6,
+                            wrapAlignment: WrapAlignment.center,
+                            pinBoxHeight: 40,
+                            pinBoxWidth: 40,
+                            hideCharacter: true,
+                            onDone: (v){login();},
+                          ),
+                        ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(25),
+              child: ElevatedButton(onPressed: (){},
+                  child: Text("Doğrula")
+              ),
+            ),
+          ],
+        ),
       )
     );
   }
