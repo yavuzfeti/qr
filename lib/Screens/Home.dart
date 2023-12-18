@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Screens/Option.dart';
+import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -54,7 +54,7 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
               Image.asset("lib/Assets/Images/konum.png",width: 75,),
-              Image.asset(resim,width: 100,),
+              Image.asset("lib/Assets/Images/$resim.png",width: 100,),
               ],),
           ],
         ),
@@ -74,8 +74,8 @@ class _HomeState extends State<Home> {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  con("Konumlu Uzaktan","lib/Assets/Images/Sitting.png"),
-                  con("QR Okutmalı","lib/Assets/Images/Standing.png"),
+                  con("Konumlu Uzaktan","Sitting"),
+                  con("QR Okutmalı","Standing"),
                 ],
               ),
             ),
@@ -88,6 +88,28 @@ class _HomeState extends State<Home> {
                 ),
               ],
             ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+          decoration: Themes.decor,
+          width: double.infinity,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Bugün ${DateFormat("dd.MM.yyyy").format((DateTime.now()))}",style: TextStyle(fontSize: 15),),
+                  Image.asset("lib/Assets/Images/cizgi.png",width: 125,),
+                  SizedBox(height: 10,),
+                  Image.asset("lib/Assets/Images/segment.png",width: 100,),
+                ],
+              ),
+              Image.asset("lib/Assets/Images/person.png",width: 125,),
+            ],
+          ),
+        ),
           ],
         ),
       ),

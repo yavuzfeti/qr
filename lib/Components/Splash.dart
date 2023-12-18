@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:qr/Components/Base.dart';
 import 'dart:async';
 import 'package:qr/Components/Themes.dart';
-import 'package:qr/Screens/Home.dart';
 import 'package:qr/Screens/Login.dart';
 import 'package:qr/Utils/Network.dart';
 

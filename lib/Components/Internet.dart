@@ -77,7 +77,6 @@ class Internet
               ],
             ),
           ),
-          barrier: false
       );
     }
     else

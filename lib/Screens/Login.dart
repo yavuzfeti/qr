@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 import 'package:qr/Components/Base.dart';
 import 'package:qr/Components/Themes.dart';
@@ -17,15 +18,14 @@ class _LoginState extends State<Login> {
   TextEditingController usernameC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
 
-  bool isSecret = true;
-  bool isActive = false;
-
-  void passwordIsSecret()
-  {
-    setState(() {
-      isSecret = !isSecret;
-    });
+  @override
+  void dispose() {
+    super.dispose();
+    usernameC.dispose();
+    passwordC.dispose();
   }
+
+  bool isActive = false;
 
   isActiveFun()
   {
@@ -80,10 +80,13 @@ class _LoginState extends State<Login> {
             (Route<dynamic> route) => false,
       );
     }
-    catch (e) {rethrow;}
-    setState(() {
-      loading = false;
-    });
+    catch (e)
+    {
+      setState(() {
+        loading = false;
+      });
+      rethrow;
+    }
   }
 
   final PageController _pageController = PageController(initialPage: 0);
@@ -142,7 +145,7 @@ class _LoginState extends State<Login> {
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 width: double.infinity,
-                height: MediaQuery.sizeOf(context).height/0,
+                height: MediaQuery.sizeOf(context).height/5,
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Themes.lightGrey,
@@ -182,9 +185,13 @@ class _LoginState extends State<Login> {
                               ),
                               keyboardType: TextInputType.number,
                               controller: usernameC,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(10)
+                              ],
                               onChanged: (v)
                               {
-                                if(usernameC.text.length == 10)
+                                if(usernameC.text.length > 9)
                                 {
                                   _pageController.animateToPage(
                                     1,
@@ -192,11 +199,13 @@ class _LoginState extends State<Login> {
                                     curve: Curves.easeInOut,
                                   );
                                 }
+                                isActiveFun();
                               },
                             ),
                           ),
                         Center(
                           child: PinCodeTextField(
+                            autofocus: true,
                             controller: passwordC,
                             pinBoxBorderWidth: 0,
                           pinBoxColor: Themes.lightGrey,
@@ -206,7 +215,11 @@ class _LoginState extends State<Login> {
                             pinBoxHeight: 40,
                             pinBoxWidth: 40,
                             hideCharacter: true,
-                            onDone: (v){login();},
+                            onDone: (v)
+                            {
+                              isActiveFun();
+                              if(isActive){login();}
+                            },
                           ),
                         ),
                         ],
@@ -216,9 +229,12 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ),
-            Padding(
+            loading
+                ? Center(child: CircularProgressIndicator(),)
+                : Padding(
               padding: const EdgeInsets.all(25),
-              child: ElevatedButton(onPressed: (){},
+              child: ElevatedButton(
+                  onPressed: isActive ? login : null,
                   child: Text("Doğrula")
               ),
             ),
