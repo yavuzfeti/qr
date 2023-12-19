@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Components/TopBar.dart';
+import 'package:qr/Utils/Permissions.dart';
 
 class Denetim extends StatefulWidget {
   const Denetim({super.key});
@@ -10,6 +11,15 @@ class Denetim extends StatefulWidget {
 }
 
 class _DenetimState extends State<Denetim> {
+
+  @override
+  void initState() {
+    super.initState();
+    Permissions.cameraRequest();
+    Permissions.notificationRequest();
+    Permissions.locationRequest();
+  }
+
   Container con(String text1, String text2, dynamic trailing) {
     return Container(
       width: double.infinity,
@@ -43,8 +53,20 @@ class _DenetimState extends State<Denetim> {
             "Kamera",
             Switch(
               hoverColor: Themes.mainColor,
-              value: true,
-              onChanged: (v) {},
+              value: Permissions.camera,
+              onChanged: (v)
+              {
+                setState(() {
+                  if(!Permissions.camera)
+                  {
+                    Permissions.cameraRequest();
+                  }
+                  else
+                  {
+                    Permissions.camera = !Permissions.camera;
+                  }
+                });
+              },
             ),
           ),
           con(
@@ -52,8 +74,20 @@ class _DenetimState extends State<Denetim> {
             "Bildirim",
             Switch(
               hoverColor: Themes.mainColor,
-              value: true,
-              onChanged: (v) {},
+              value: Permissions.notification,
+              onChanged: (v)
+              {
+                setState(() {
+                  if(!Permissions.notification)
+                  {
+                    Permissions.notificationRequest();
+                  }
+                  else
+                  {
+                    Permissions.notification = !Permissions.notification;
+                  }
+                });
+              },
             ),
           ),
           con(
@@ -61,8 +95,20 @@ class _DenetimState extends State<Denetim> {
             "Arkaplan",
             Switch(
               hoverColor: Themes.mainColor,
-              value: true,
-              onChanged: (v) {},
+              value: Permissions.location,
+              onChanged: (v)
+              {
+                setState(() {
+                  if(!Permissions.location)
+                  {
+                    Permissions.locationRequest();
+                  }
+                  else
+                  {
+                    Permissions.location = !Permissions.location;
+                  }
+                });
+              },
             ),
           ),
           con("Mevzuat Bilgilendirmesi", "Gizlilik Politikası", null),

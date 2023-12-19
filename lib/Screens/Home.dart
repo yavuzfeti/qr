@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Screens/Option.dart';
 import 'package:intl/intl.dart';
+import 'package:qr/Screens/ProcessHistory.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -83,7 +84,11 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("İŞLEM GEÇMİŞİ"),
-                TextButton(onPressed: (){},
+                TextButton(
+                    onPressed: ()
+                    {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ProcessHistory()));
+                    },
                     child: Text("Tümünü Gör")
                 ),
               ],

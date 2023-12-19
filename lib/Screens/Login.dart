@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 import 'package:qr/Components/Base.dart';
+import 'package:qr/Components/Message.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Utils/Network.dart';
 import 'package:qr/main.dart';
@@ -85,6 +86,7 @@ class _LoginState extends State<Login> {
       setState(() {
         loading = false;
       });
+      Message.show("Bir hata oluştu");
       rethrow;
     }
   }

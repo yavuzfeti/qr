@@ -5,16 +5,16 @@ class Permissions
 {
   static bool location = false;
   static bool notification = false;
-
-  static Future<void> allRequests() async
-  {
-    await locationRequest();
-    await notificationRequest();
-  }
+  static bool camera = false;
 
   static Future<void> notificationRequest() async
   {
     notification = await control(Permission.notification);
+  }
+
+  static Future<void> cameraRequest() async
+  {
+    camera = await control(Permission.camera);
   }
 
   static Future<void> locationRequest() async
