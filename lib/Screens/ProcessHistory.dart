@@ -30,7 +30,7 @@ class _ProcessHistoryState extends State<ProcessHistory> {
       loading = true;
     });
     id = await storage.read(key: "id");
-    response = await Network("logs?user_id=38&token=1000&key=qrpdks_4iJZafkXr1w87NMU3XXguIPYtqw5NP").get();
+    response = await Network("logs?user_id=$id&key=qrpdks_4iJZafkXr1w87NMU3XXguIPYtqw5NP").get();
     setState(() {
       loading = false;
     });

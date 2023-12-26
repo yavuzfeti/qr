@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 import 'package:qr/Components/Base.dart';
 import 'package:qr/Components/Message.dart';
@@ -16,8 +17,11 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  TextEditingController usernameC = TextEditingController();
+  TextEditingController usernameC = MaskedTextController(mask: "+90 | (500) 000 00 00");
   TextEditingController passwordC = TextEditingController();
+
+  FocusNode userFocus = FocusNode();
+  FocusNode passFocus = FocusNode();
 
   @override
   void dispose() {
@@ -46,7 +50,7 @@ class _LoginState extends State<Login> {
     try {
       response = await Network("auth/login").post(
           {
-            "username" : usernameC.text,
+            "username" : usernameC.text.substring(7).replaceAll(" ", "").replaceAll(")", ""),
             "password" : passwordC.text
           }
       );
@@ -170,8 +174,10 @@ class _LoginState extends State<Login> {
                         children: [
                           Center(
                             child: TextField(
+                              autofocus: true,
                               decoration: InputDecoration(
-                                hintText: "5xx xxx xx xx",
+                                hintStyle: TextStyle(color: Themes.grey),
+                                hintText: "+90 | (5xx) xxx xx xx",
                                 enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20),
                                     borderSide: BorderSide(
@@ -187,14 +193,16 @@ class _LoginState extends State<Login> {
                               ),
                               keyboardType: TextInputType.number,
                               controller: usernameC,
+                              focusNode: userFocus,
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(10)
+                                LengthLimitingTextInputFormatter(21)
                               ],
                               onChanged: (v)
                               {
-                                if(usernameC.text.length > 9)
+                                if(usernameC.text.length > 20)
                                 {
+                                  userFocus.unfocus();
                                   _pageController.animateToPage(
                                     1,
                                     duration: Duration(milliseconds: 500),
@@ -208,6 +216,7 @@ class _LoginState extends State<Login> {
                         Center(
                           child: PinCodeTextField(
                             autofocus: true,
+                            focusNode: passFocus,
                             controller: passwordC,
                             pinBoxBorderWidth: 0,
                           pinBoxColor: Themes.lightGrey,

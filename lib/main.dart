@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:qr/Components/Internet.dart';
 import 'package:qr/Components/Splash.dart';
 import 'package:qr/Components/Themes.dart';
-import 'package:qr/Utils/Permissions.dart';
 
 final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 bool debugMode = true;
@@ -11,7 +10,6 @@ bool debugMode = true;
 void main() async
 {
   WidgetsFlutterBinding.ensureInitialized();
-  //Permissions.allRequests();
 
   Internet.gecBaslat(splashSure + 1000);
 

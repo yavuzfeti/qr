@@ -19,7 +19,7 @@ class Permissions
 
   static Future<void> locationRequest() async
   {
-    location = (await control(Permission.location) || await control(Permission.locationWhenInUse));
+    location = await control(Permission.location);
   }
 
   static Future<bool> control(Permission permisson) async
