@@ -1,3 +1,4 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
@@ -32,11 +33,26 @@ class _LoginState extends State<Login> {
 
   bool isActive = false;
 
+  String macId = "";
+
   isActiveFun()
   {
     setState(() {
       isActive = usernameC.text.isNotEmpty && passwordC.text.isNotEmpty;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    al();
+  }
+
+  al() async
+  {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    macId = androidInfo.fingerprint;
   }
 
   dynamic response;
@@ -51,7 +67,8 @@ class _LoginState extends State<Login> {
       response = await Network("auth/login").post(
           {
             "username" : usernameC.text.substring(7).replaceAll(" ", "").replaceAll(")", ""),
-            "password" : passwordC.text
+            "password" : passwordC.text,
+            "mac_id": macId
           }
       );
       await storage.write(key: "id", value: response["response"]["id"].toString() ?? "Veri yok");
@@ -175,21 +192,11 @@ class _LoginState extends State<Login> {
                           Center(
                             child: TextField(
                               autofocus: true,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintStyle: TextStyle(color: Themes.grey),
                                 hintText: "+90 | (5xx) xxx xx xx",
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    borderSide: BorderSide(
-                                      width: 0,
-                                    )
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(
-                                    width: 0,
-                                  )
-                                )
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
                               ),
                               keyboardType: TextInputType.number,
                               controller: usernameC,
@@ -240,8 +247,12 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 10),
+              child: Text("Lütfen devam etmek için bilgilerinizi girin. Ardından 'Doğrula' butonuna tıklayın!",textAlign: TextAlign.center,style: TextStyle(color: Colors.black26,fontSize: 13),),
+            ),
             loading
-                ? Center(child: CircularProgressIndicator(),)
+                ? const Center(child: CircularProgressIndicator(),)
                 : Padding(
               padding: const EdgeInsets.all(25),
               child: ElevatedButton(

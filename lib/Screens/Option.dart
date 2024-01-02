@@ -123,7 +123,7 @@ class _OptionState extends State<Option> {
       )).substring(7);
       try
       {
-        response = await Network("locations?user_id=$id&company_token=$qr&key=qrpdks_4iJZafkXr1w87NMU3XXguIPYtqw5NP&coordinates=${position.latitude},${position.longitude}").get();
+        response = await Network("locations?user_id=$id&company_token=$qr&key=$key&coordinates=${position.latitude},${position.longitude}").get();
       }
       catch (e)
       {
