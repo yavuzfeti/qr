@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Components/TopBar.dart';
 import 'package:qr/Utils/Permissions.dart';
@@ -15,9 +16,28 @@ class _DenetimState extends State<Denetim> {
   @override
   void initState() {
     super.initState();
-    Permissions.cameraRequest();
-    Permissions.notificationRequest();
-    Permissions.locationRequest();
+    run();
+  }
+
+  String version = "";
+
+  bool loading = true;
+
+  run() async
+  {
+    setState(() {
+      loading = true;
+    });
+    var status = await PackageInfo.fromPlatform();
+    setState(() {
+      version = status.version;
+    });
+    await Permissions.cameraRequest();
+    await Permissions.notificationRequest();
+    await Permissions.locationRequest();
+    setState(() {
+      loading = false;
+    });
   }
 
   Container con(String text1, String text2, dynamic trailing) {
@@ -46,7 +66,9 @@ class _DenetimState extends State<Denetim> {
     return Scaffold(
       backgroundColor: Themes.back,
       appBar: TopBar("Denetim Merkezi"),
-      body: ListView(
+      body: loading
+        ? Center(child: CircularProgressIndicator(),)
+          : ListView(
         children: [
           con(
             "Kamera erişimine izin veriyorum",
@@ -113,7 +135,7 @@ class _DenetimState extends State<Denetim> {
           ),
           con("Mevzuat Bilgilendirmesi", "Gizlilik Politikası", null),
           con("Mevzuat Bilgilendirmesi", "Şartlar ve Koşullar", null),
-          con("Sürüm Güncelleme Derlemesi", "v1.0.0", null)
+          con("Sürüm Güncelleme Derlemesi", version, null)
         ],
       ),
     );

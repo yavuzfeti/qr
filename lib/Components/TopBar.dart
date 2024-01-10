@@ -24,7 +24,7 @@ class _TopBarState extends State<TopBar> {
     al();
   }
 
-  String? ad;
+  String ad = "";
 
   al() async
   {

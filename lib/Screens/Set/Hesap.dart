@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr/Components/Alert.dart';
+import 'package:qr/Components/Message.dart';
 import 'package:qr/Components/Sheet.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Components/TopBar.dart';
@@ -26,6 +27,7 @@ class _HesapState extends State<Hesap> {
   String? mail;
   String? sifre;
   String? telefon;
+  String? id;
 
   bool loading = true;
 
@@ -36,7 +38,8 @@ class _HesapState extends State<Hesap> {
     });
     adSoyad = "${await storage.read(key: "name")} ${await storage.read(key: "surname")}";
     mail = await storage.read(key: "email") ?? "";
-    telefon = "+${await storage.read(key: "phone_code")}${await storage.read(key: "phone")}";
+    telefon = "${await storage.read(key: "username")}";
+    id = "${await storage.read(key: "id")}";
     sifre = "*" * (await storage.read(key: "password") ?? "***").length;
     setState(() {
       loading = false;
@@ -96,7 +99,14 @@ class _HesapState extends State<Hesap> {
                 ),
                 minimumSize: const Size(75, 35),
               ),
-                onPressed: (){},
+                onPressed: () async
+                {
+                  await Network("email-verification").post({
+                    "user_id": id,
+                    "key": key
+                  });
+                  Message.show("Doğrulama epostası iletildi.");
+                },
                 child: Text("E-Posta Adresini Doğrula")
             ),
           ),

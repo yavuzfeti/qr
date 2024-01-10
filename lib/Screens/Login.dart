@@ -126,7 +126,7 @@ class _LoginState extends State<Login> {
                 Container(
                   width: double.infinity,
                   height: MediaQuery.sizeOf(context).height/2,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Themes.back
                   ),
                 ),
@@ -150,7 +150,7 @@ class _LoginState extends State<Login> {
                         topRight: Radius.circular(20),
                       )
                     ),
-                    child: Center(child: Text("Hoşgeldiniz!",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)),
+                    child: const Center(child: Text("Hoşgeldiniz!",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)),
                   )
                 ),
                 Positioned(
@@ -165,8 +165,8 @@ class _LoginState extends State<Login> {
               color: Themes.light,
               child: Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 width: double.infinity,
                 height: MediaQuery.sizeOf(context).height/5,
                 decoration: BoxDecoration(
@@ -181,8 +181,8 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15),
+                    const Padding(
+                      padding: EdgeInsets.all(15),
                       child: Text("Telefon NO:"),
                     ),
                     Expanded(
@@ -212,7 +212,7 @@ class _LoginState extends State<Login> {
                                   userFocus.unfocus();
                                   _pageController.animateToPage(
                                     1,
-                                    duration: Duration(milliseconds: 500),
+                                    duration: const Duration(milliseconds: 500),
                                     curve: Curves.easeInOut,
                                   );
                                 }
@@ -229,6 +229,8 @@ class _LoginState extends State<Login> {
                           pinBoxColor: Themes.lightGrey,
                           pinBoxRadius: 15,
                           maxLength: 6,
+                            defaultBorderColor: Themes.transparent,
+                            hasTextBorderColor:Themes.transparent,
                             wrapAlignment: WrapAlignment.center,
                             pinBoxHeight: 40,
                             pinBoxWidth: 40,
@@ -247,8 +249,8 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 10),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
               child: Text("Lütfen devam etmek için bilgilerinizi girin. Ardından 'Doğrula' butonuna tıklayın!",textAlign: TextAlign.center,style: TextStyle(color: Colors.black26,fontSize: 13),),
             ),
             loading
@@ -257,7 +259,7 @@ class _LoginState extends State<Login> {
               padding: const EdgeInsets.all(25),
               child: ElevatedButton(
                   onPressed: isActive ? login : null,
-                  child: Text("Doğrula")
+                  child: const Text("Doğrula")
               ),
             ),
           ],
