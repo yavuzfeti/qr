@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:qr/Components/Alert.dart';
 import 'package:qr/Components/BottomBar.dart';
@@ -34,18 +36,21 @@ class _BaseState extends State<Base> {
         backgroundColor: Themes.back,
         appBar: TopBar("home"),
         body: body[bottomIndex],
-        bottomNavigationBar: BottomBar(items: const [
+        bottomNavigationBar: BottomBar(items: [
           GButton(
+            leading: SvgPicture.asset("lib/Assets/Icons/home.svg",color: bottomIndex == 0 ? Themes.dark : Themes.grey,width: 25,height: 25,),
             text: "Anasayfa",
-            icon: Icons.home_filled,
+            icon: Icons.add,
           ),
           GButton(
+            leading: SvgPicture.asset("lib/Assets/Icons/not.svg",color: bottomIndex == 1 ? Themes.dark : Themes.grey,width: 25,height: 25,),
             text: "Bildirimler",
-            icon: Icons.notifications_rounded,
+            icon: Icons.add,
           ),
           GButton(
+            leading: SvgPicture.asset("lib/Assets/Icons/user.svg",color: bottomIndex == 2 ? Themes.dark : Themes.grey,width: 25,height: 25,),
             text: "Ayarlar",
-            icon: Icons.account_circle_rounded,
+            icon: Icons.add,
           ),
         ],update:(){setState((){bottomIndex;});},),
       ),

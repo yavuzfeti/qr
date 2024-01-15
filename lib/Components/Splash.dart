@@ -21,12 +21,6 @@ class _SplashState extends State<Splash> {
   Future<void> oku() async
   {
     session = await storage.read(key: "session");
-  }
-
-  @override
-  void initState() {
-    oku();
-    super.initState();
     Future.delayed(Duration(milliseconds: splashSure), ()
     {
       if(session == "1")
@@ -38,6 +32,12 @@ class _SplashState extends State<Splash> {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    oku();
   }
 
   @override

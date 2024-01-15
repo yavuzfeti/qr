@@ -2,6 +2,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 import 'package:qr/Components/Base.dart';
 import 'package:qr/Components/Message.dart';
@@ -57,6 +58,7 @@ class _LoginState extends State<Login> {
 
   dynamic response;
   bool loading = false;
+  String label = "Telefon";
 
   login() async
   {
@@ -157,7 +159,10 @@ class _LoginState extends State<Login> {
                   bottom: 0,
                     left: 0,
                     right: 0,
-                    child: Image.asset("lib/Assets/Images/Torso.png"),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 50),
+                      child: SvgPicture.asset("lib/Assets/Images/torso.svg"),
+                    ),
                 ),
               ],
             ),
@@ -181,9 +186,9 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.all(15),
-                      child: Text("Telefon NO:"),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20,horizontal: 15),
+                      child: Text(label),
                     ),
                     Expanded(
                       child: PageView(
@@ -210,6 +215,9 @@ class _LoginState extends State<Login> {
                                 if(usernameC.text.length > 20)
                                 {
                                   userFocus.unfocus();
+                                  setState(() {
+                                    label = "Şifre";
+                                  });
                                   _pageController.animateToPage(
                                     1,
                                     duration: const Duration(milliseconds: 500),

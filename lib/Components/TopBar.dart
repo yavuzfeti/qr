@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Utils/Network.dart';
 
@@ -29,6 +30,9 @@ class _TopBarState extends State<TopBar> {
   al() async
   {
     ad = await storage.read(key: "surname") ?? "";
+    setState(() {
+      ad;
+    });
   }
 
   @override
@@ -43,17 +47,18 @@ class _TopBarState extends State<TopBar> {
         crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                      children: [
-              Text("Merhaba ",style: const TextStyle(color: Themes.text,fontSize: 22),),
-              Text("$ad",style: const TextStyle(color: Themes.text,fontSize: 22),),
-              Icon(Icons.front_hand_sharp,color: Colors.black45,size: 32,)
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+              const Text("Merhaba ",style: TextStyle(color: Themes.text,fontSize: 22),),
+              Text(ad,style: const TextStyle(color: Themes.text,fontSize: 22,fontWeight: FontWeight.bold),),
+                  SizedBox(width: 5,),
+                  Image.asset("lib/Assets/Icons/hand.png")
                       ],
                     ),
-              Text("QR PDKS’e tekrardan hoş geldin!",style: const TextStyle(color: Themes.text,fontSize: 15),),
+              const Text("QR PDKS’e tekrardan hoş geldin!",style: TextStyle(color: Themes.text,fontSize: 15),),
             ],
           )
           : Text(widget.title,style: const TextStyle(color: Themes.text,fontWeight: FontWeight.bold),),
-      actions: [],
     );
   }
 }

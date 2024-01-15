@@ -18,9 +18,9 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 75,
+      height: 65,
       color: Themes.light,
-      padding: EdgeInsets.symmetric(vertical: 10,horizontal: 35),
+      padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 25),
       child: GNav(
         tabs: widget.items,
         selectedIndex: bottomIndex,
@@ -37,7 +37,7 @@ class _BottomBarState extends State<BottomBar> {
         activeColor: Themes.dark,
         backgroundColor: Themes.light,
         tabBorderRadius: 15,
-        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         curve: Curves.easeInExpo,
         duration: const Duration(milliseconds: 500),
       ),

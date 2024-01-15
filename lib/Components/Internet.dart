@@ -65,14 +65,14 @@ class Internet
                 Icon(
                   Icons.wifi_off_rounded,
                   size: 50,
-                  color: Themes.light,
+                  color: Themes.dark,
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 Text(
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Themes.light,fontSize: 15),
+                    style: TextStyle(color: Themes.dark,fontSize: 15),
                     "Lütfen ağ bağlantınızı kontrol edin")
               ],
             ),
@@ -83,7 +83,6 @@ class Internet
     {
       if(dialogDurum && internet)
       {
-        Navigator.of(navKey.currentState!.context).pop();
         dialogDurum = false;
       }
     }

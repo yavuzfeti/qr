@@ -27,7 +27,7 @@ void main() async
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: kDebugMode,
-      title: "Personel Takip Sistemi",
+      title: "QrPdks",
       theme: Themes.theme,
       navigatorKey: navKey,
       home: const Splash(),

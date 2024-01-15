@@ -80,7 +80,7 @@ class Themes
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        minimumSize: const Size(double.infinity, 50),
+        minimumSize: const Size(double.infinity, 55),
       ),
     ),
     textButtonTheme: TextButtonThemeData(

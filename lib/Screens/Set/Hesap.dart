@@ -65,7 +65,7 @@ class _HesapState extends State<Hesap> {
               Text(
                 text2,
                 style: TextStyle(
-                    color: Themes.text, fontSize: 16, fontWeight: FontWeight.bold),
+                    color: Themes.text, fontSize: 15, fontWeight: FontWeight.bold),
               ),
               oge
             ],
@@ -73,7 +73,7 @@ class _HesapState extends State<Hesap> {
               : Text(
             text2,
             style: TextStyle(
-                color: Themes.text, fontSize: 16, fontWeight: FontWeight.bold),
+                color: Themes.text, fontSize: 15, fontWeight: FontWeight.bold),
           ),
           trailing: IconButton(
             onPressed: (){},
@@ -85,71 +85,88 @@ class _HesapState extends State<Hesap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Themes.lightGrey,
       appBar: TopBar("Hesap Kimliği ayarları"),
       body: loading
           ? Center(child: CircularProgressIndicator(),)
-          : ListView(
+          : Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          con("Adınız Soyadınız", adSoyad!, null),
-          con("E-Posta", mail!,
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                con("Adınız Soyadınız", adSoyad!, null),
+                con("E-Posta", mail!,
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        minimumSize: const Size(75, 35),
+                      ),
+                      onPressed: () async
+                      {
+                        await Network("email-verification").post({
+                          "user_id": id,
+                          "key": key
+                        });
+                        Message.show("Doğrulama epostası iletildi.");
+                      },
+                      child: Text("E-Posta Adresini Doğrula")
+                  ),
                 ),
-                minimumSize: const Size(75, 35),
-              ),
-                onPressed: () async
-                {
-                  await Network("email-verification").post({
-                    "user_id": id,
-                    "key": key
-                  });
-                  Message.show("Doğrulama epostası iletildi.");
-                },
-                child: Text("E-Posta Adresini Doğrula")
+                con("Şifre", sifre!, null),
+                con("Cep Telefonu", telefon!, null),
+                TextButton(
+                    onPressed: () async
+                    {
+                      await Sheet.show(
+                          [
+                            Text("Hesabınızı silmek istediğinizden emin misiniz?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),textAlign: TextAlign.center,),
+                            Text("Bu kalıcı bir işlemdir ve anında hesabınızdan çıkış yapılır. Aydınlatma Metni ve Gizlilik Politikası kuralları saklıdır.",style: TextStyle(fontSize: 12),textAlign: TextAlign.center,),
+                            ElevatedButton(
+                              onPressed: (){},
+                              child: Text("EVET, EMİNİM"),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Themes.red
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: (){},
+                              child: Text("HAYIR, HESABIMI SİLME"),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Themes.dark
+                              ),
+                            ),
+                          ]
+                      );
+                    },
+                    child: Text("Hesabımı sil",style: TextStyle(color: Themes.red,fontWeight: FontWeight.bold),)),
+              ],
             ),
           ),
-          con("Şifre", sifre!, null),
-          con("Cep Telefonu", telefon!, null),
-          TextButton(
-              onPressed: () async
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size(double.infinity, 65),
+                backgroundColor: Themes.light,
+                foregroundColor: Themes.dark,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(0),
+              ),
+            ),
+            onPressed: () async
+            {
+              await Alert.show(title: "Çıkış Yap",content: Text("Çıkış yapmak istediğinize emin misiniz?",style: TextStyle(color: Themes.dark),),funLabel: "Çık",fun: ()
               {
-                await Sheet.show(
-                  [
-                    Text("Hesabınızı silmek istediğinizden emin misiniz?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),textAlign: TextAlign.center,),
-                    Text("Bu kalıcı bir işlemdir ve anında hesabınızdan çıkış yapılır. Aydınlatma Metni ve Gizlilik Politikası kuralları saklıdır.",style: TextStyle(fontSize: 12),textAlign: TextAlign.center,),
-                    ElevatedButton(
-                        onPressed: (){},
-                        child: Text("EVET, EMİNİM"),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Themes.red
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: (){},
-                      child: Text("HAYIR, HESABIMI SİLME"),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Themes.dark
-                      ),
-                    ),
-                  ]
+                storage.deleteAll();
+                Navigator.pushAndRemoveUntil(
+                  navKey.currentState!.context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                      (Route<dynamic> route) => false,
                 );
-              },
-              child: Text("Hesabımı sil",style: TextStyle(color: Themes.red),)),
-          TextButton.icon(
-              onPressed: () async
-              {
-                await Alert.show(title: "Çıkış Yap",content: Text("Çıkış yapmak istediğinize emin misiniz?",style: TextStyle(color: Themes.dark),),funLabel: "Çık",fun: ()
-                {
-                  storage.deleteAll();
-                  Navigator.pushAndRemoveUntil(
-                    navKey.currentState!.context,
-                    MaterialPageRoute(builder: (context) => Login()),
-                        (Route<dynamic> route) => false,
-                  );
-                });
-              },
+              });
+            },
             icon: Icon(Icons.logout_rounded,color: Themes.red,),
             label: Text("Çıkış Yap"),
           ),

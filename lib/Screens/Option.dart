@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:qr/Components/Sheet.dart';
 import 'package:qr/Components/Themes.dart';
@@ -23,10 +24,11 @@ class _OptionState extends State<Option> {
   {
     Sheet.show(
         [
+          SizedBox(height: 25,),
           if(widget.title == "Konumlu Uzaktan")
-            Text("QR kod okutmadan uzaktan, mesai hareketi işleyebilirsin",textAlign: TextAlign.center,style: TextStyle(fontSize: 17),),
+            Text("QR kod okutmadan uzaktan, mesai hareketi işleyebilirsin",textAlign: TextAlign.center,style: TextStyle(fontSize: 18,color: Themes.grey),),
           if(widget.title == "QR Okutmalı")
-            Text("QR kod ile mesai hareketi işleyebilirsin",textAlign: TextAlign.center,style: TextStyle(fontSize: 17),),
+            Text("QR kod ile mesai hareketi işleyebilirsin",textAlign: TextAlign.center,style: TextStyle(fontSize: 18,color: Themes.grey),),
           ElevatedButton(
             onPressed: ()
             {
@@ -74,6 +76,7 @@ class _OptionState extends State<Option> {
             },
             child: Text("Çıkış Yap"),
           ),
+          SizedBox(height: 25,)
         ]);
     if(widget.title == "Konumlu Uzaktan")
     {
@@ -87,9 +90,7 @@ class _OptionState extends State<Option> {
     id = await storage.read(key: "id");
     if(Permissions.location)
     {
-      position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
+      position = await Geolocator.getCurrentPosition();
     }
   }
 
@@ -112,7 +113,7 @@ class _OptionState extends State<Option> {
     await Sheet.show(
       [
         Text("İŞLEM BAŞARILI",style: TextStyle(color: Themes.dark,fontSize: 17,fontWeight: FontWeight.bold),),
-        Image.asset("lib/Assets/Images/succes.png"),
+        SvgPicture.asset("lib/Assets/Images/succes.svg"),
         Text("İşleminiz başarıyla gönderilmiştir.\nİşlem tarihiniz ${dateToDartTrans(DateTime.now())}",style: TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
         ElevatedButton(onPressed: (){Navigator.pop(context);Navigator.pop(context);}, child: Text("Ana Sayfa"))
       ]
@@ -127,7 +128,7 @@ class _OptionState extends State<Option> {
     await Sheet.show(
         [
           Text("İŞLEM BAŞARISIZ",style: TextStyle(color: Themes.dark,fontSize: 17,fontWeight: FontWeight.bold),),
-          Image.asset("lib/Assets/Images/err.png",width: 75,),
+          SvgPicture.asset("lib/Assets/Images/err.svg",width: 75,),
           Text("Cihaz belirlenen konumun dışındadır!\nLütfen QR kod ekranı deneyin",style: TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
           ElevatedButton(onPressed: (){Navigator.pop(context);okut();}, child: Text("Başla"))
         ]
@@ -188,10 +189,12 @@ class _OptionState extends State<Option> {
     if(Permissions.location)
     {
       try {
-        await Network("locations-user?user_id=$id&company_token=$qr&key=$key&coordinates=${position.latitude},${position.longitude}").get();
-        await Network("logs?user_id=$id&token=$qr&key=$key").post("");
+        String? token = await storage.read(key: "current_team_id");
+        await Network("locations-user?user_id=$id&company_token=$token&key=$key&coordinates=${position.latitude},${position.longitude}").get();
+        await Network("logs?user_id=$id&token=$token&key=$key").post("");
         success();
-      }catch (e) {
+      }catch (e)
+      {
         err();
       }
     }
@@ -202,8 +205,9 @@ class _OptionState extends State<Option> {
     if(Permissions.location)
     {
       try {
-        await Network("locations-user?user_id=$id&company_token=$qr&key=$key&coordinates=${position.latitude},${position.longitude}").get();
-        await Network("logs?user_id=$id&token=$qr&key=$key").post("");
+        String? token = await storage.read(key: "current_team_id");
+        await Network("locations-user?user_id=$id&company_token=$token&key=$key&coordinates=${position.latitude},${position.longitude}").get();
+        await Network("logs?user_id=$id&token=$token&key=$key").post("");
         success();
       }catch (e) {
         err();
@@ -221,7 +225,7 @@ class _OptionState extends State<Option> {
         Container(
           alignment: Alignment.topCenter,
           padding: EdgeInsets.only(top: 100),
-          child: Image.asset("lib/Assets/Images/logo.png"),
+          child: SvgPicture.asset("lib/Assets/Images/logo.svg"),
         ),
       )
     );

@@ -54,11 +54,11 @@ class Network
     }
     on DioError catch (e)
     {
-      rethrow;
+      throw Exception(e.response);
     }
     catch (e)
     {
-      rethrow;
+      throw Exception(e);
     }
   }
 }

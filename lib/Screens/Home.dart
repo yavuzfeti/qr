@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Screens/Option.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +17,7 @@ class _HomeState extends State<Home> {
   Container con(String title, String resim)
   {
     return Container(
-      margin: EdgeInsets.all(15),
+      margin: EdgeInsets.fromLTRB(0, 15, 15, 15),
       padding: EdgeInsets.all(10),
       decoration: Themes.decor,
       width: 250,
@@ -54,8 +55,8 @@ class _HomeState extends State<Home> {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-              Image.asset("lib/Assets/Images/konum.png",width: 75,),
-              Image.asset("lib/Assets/Images/$resim.png",width: 100,),
+              SvgPicture.asset("lib/Assets/Images/location.svg",width: 75,),
+              SvgPicture.asset("lib/Assets/Images/$resim.svg",width: 100,),
               ],),
           ],
         ),
@@ -66,11 +67,11 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 15),
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: 300,
               child: ListView(
                 scrollDirection: Axis.horizontal,
@@ -83,13 +84,13 @@ class _HomeState extends State<Home> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("İŞLEM GEÇMİŞİ"),
+                Text("İŞLEM GEÇMİŞİ",style: TextStyle(color: Themes.grey),),
                 TextButton(
                     onPressed: ()
                     {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => ProcessHistory()));
                     },
-                    child: Text("Tümünü Gör")
+                    child: Text("TÜMÜNÜ GÖR",style: TextStyle(color: Themes.grey),)
                 ),
               ],
             ),
@@ -111,10 +112,14 @@ class _HomeState extends State<Home> {
                   Image.asset("lib/Assets/Images/segment.png",width: 100,),
                 ],
               ),
-              Image.asset("lib/Assets/Images/person.png",width: 125,),
+              SvgPicture.asset("lib/Assets/Images/person.svg"),
             ],
           ),
         ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 25),
+              child: SvgPicture.asset("lib/Assets/Images/takvim.svg"),
+            ),
           ],
         ),
       ),
