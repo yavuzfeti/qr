@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({super.key});
@@ -10,6 +11,9 @@ class Notifications extends StatefulWidget {
 class _NotificationsState extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("Bildirimler"),);
+    return Align(
+        alignment:Alignment.topCenter,
+        child: SvgPicture.asset("lib/Assets/Images/notification.svg")
+    );
   }
 }

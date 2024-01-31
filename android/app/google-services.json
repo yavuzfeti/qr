@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "943931227434",
+    "project_id": "qrpdks-5cc1a",
+    "storage_bucket": "qrpdks-5cc1a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943931227434:android:af424d73d94b293763f253",
+        "android_client_info": {
+          "package_name": "com.overthinkers.qr"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlIi0aqLK-0QsEVxq9CckELFck-wEfvjk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
