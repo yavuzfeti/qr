@@ -11,9 +11,6 @@ class Notifications extends StatefulWidget {
 class _NotificationsState extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
-    return Align(
-        alignment:Alignment.topCenter,
-        child: SvgPicture.asset("lib/Assets/Images/notification.svg")
-    );
+    return SvgPicture.asset("lib/Assets/Images/notification.svg");
   }
 }

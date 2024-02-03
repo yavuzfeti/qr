@@ -17,10 +17,10 @@ class _HomeState extends State<Home> {
   Container con(String title, String resim)
   {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 15, 15, 15),
+      margin: EdgeInsets.fromLTRB(15, 15, resim=="Standing" ? 15 : 0, 15),
       padding: EdgeInsets.all(10),
       decoration: Themes.decor,
-      width: 250,
+      width: 300,
       child: InkWell(
         onTap: ()
         {
@@ -66,62 +66,66 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 300,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  con("Konumlu Uzaktan","Sitting"),
-                  con("QR Okutmalı","Standing"),
-                ],
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 350,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
               children: [
-                Text("İŞLEM GEÇMİŞİ",style: TextStyle(color: Themes.grey),),
-                TextButton(
-                    onPressed: ()
-                    {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ProcessHistory()));
-                    },
-                    child: Text("TÜMÜNÜ GÖR",style: TextStyle(color: Themes.grey),)
+                con("Konumlu Uzaktan","Sitting"),
+                con("QR Okutmalı","Standing"),
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("İŞLEM GEÇMİŞİ",style: TextStyle(color: Themes.grey),),
+                    TextButton(
+                        onPressed: ()
+                        {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ProcessHistory()));
+                        },
+                        child: Text("TÜMÜNÜ GÖR",style: TextStyle(color: Themes.grey),)
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+                  decoration: Themes.decor,
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Bugün ${DateFormat("dd.MM.yyyy").format((DateTime.now()))}",style: TextStyle(fontSize: 15),),
+                          Image.asset("lib/Assets/Images/cizgi.png",width: 125,),
+                          SizedBox(height: 10,),
+                          SvgPicture.asset("lib/Assets/Images/segment.svg",width: 100,),
+                        ],
+                      ),
+                      SvgPicture.asset("lib/Assets/Images/person.svg"),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 25),
+                  child: SvgPicture.asset("lib/Assets/Images/takvim.svg"),
                 ),
               ],
             ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
-          decoration: Themes.decor,
-          width: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Bugün ${DateFormat("dd.MM.yyyy").format((DateTime.now()))}",style: TextStyle(fontSize: 15),),
-                  Image.asset("lib/Assets/Images/cizgi.png",width: 125,),
-                  SizedBox(height: 10,),
-                  Image.asset("lib/Assets/Images/segment.png",width: 100,),
-                ],
-              ),
-              SvgPicture.asset("lib/Assets/Images/person.svg"),
-            ],
-          ),
-        ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 25),
-              child: SvgPicture.asset("lib/Assets/Images/takvim.svg"),
-            ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

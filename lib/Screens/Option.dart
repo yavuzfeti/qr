@@ -150,7 +150,7 @@ class _OptionState extends State<Option> {
       )).substring(7);
       try
       {
-        response = await Network("locations?user_id=$id&company_token=$qr&key=$key&coordinates=${position.latitude},${position.longitude}").get();
+        response = await Network("locations-user?user_id=$id&company_token=$qr&key=$key&coordinates=${position.latitude},${position.longitude}").get();
         await Network("logs?user_id=$id&token=$qr&key=$key").post("");
         success();
       }
@@ -225,7 +225,20 @@ class _OptionState extends State<Option> {
         Container(
           alignment: Alignment.topCenter,
           padding: EdgeInsets.only(top: 100),
-          child: SvgPicture.asset("lib/Assets/Images/logo.svg"),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  SvgPicture.asset("lib/Assets/Images/logo.svg"),
+                  Text("QR PDKS",style: TextStyle(fontWeight: FontWeight.bold),),
+                ],
+              ),
+              TextButton(onPressed: (){okut();},
+                  child: Text("Devam etmek için tıkla")
+              )
+            ],
+          ),
         ),
       )
     );

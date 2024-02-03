@@ -7,6 +7,7 @@ class Sheet
   static show(List<Widget> items) async
   {
     showModalBottomSheet(
+      isDismissible: false,
       context: navKey.currentState!.context,
       backgroundColor: Themes.transparent,
       builder: (BuildContext context) => Container(
@@ -18,11 +19,30 @@ class Sheet
           ),
         ),
         width: double.infinity,
-        padding: const EdgeInsets.all(50),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: items,
+          children: [
+            Container(
+              width: 40,
+              height: 8,
+              margin: const EdgeInsets.only(top: 25),
+              decoration: BoxDecoration(
+                color: Colors.grey,
+                borderRadius: BorderRadius.circular(5)
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(50),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: items,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Components/TopBar.dart';
 import 'package:qr/Utils/Permissions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Denetim extends StatefulWidget {
   const Denetim({super.key});
@@ -40,24 +41,34 @@ class _DenetimState extends State<Denetim> {
     });
   }
 
-  Container con(String text1, String text2, dynamic trailing) {
-    return Container(
-      width: double.infinity,
-      height: 100,
-      alignment: Alignment.center,
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      decoration: Themes.decor,
-      child: ListTile(
-          title: Text(
-            text1,
-            style: TextStyle(color: Themes.text, fontSize: 12),
-          ),
-          subtitle: Text(
-            text2,
-            style: TextStyle(
-                color: Themes.text, fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          trailing: trailing),
+  InkWell con(String text1, String text2, dynamic trailing, {bool? l}) {
+    return InkWell(
+      onTap: ()
+      {
+        if(l??false)
+        {
+          launch("https://qr-pdks.notion.site/qr-pdks/Yasak-Metinler-eb48374824294054afc5f5e8dd2c8ea3");
+        }
+      },
+      child: Container(
+        width: double.infinity,
+        height: 100,
+        alignment: Alignment.center,
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        decoration: Themes.decor,
+        child: ListTile(
+            title: Text(
+              text1,
+              style: TextStyle(color: Themes.text, fontSize: 12),
+            ),
+            subtitle: Text(
+              text2,
+              style: TextStyle(
+                  color: Themes.text, fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            trailing: trailing,
+        ),
+      ),
     );
   }
 
@@ -133,8 +144,8 @@ class _DenetimState extends State<Denetim> {
               },
             ),
           ),
-          con("Mevzuat Bilgilendirmesi", "Gizlilik Politikası", null),
-          con("Mevzuat Bilgilendirmesi", "Şartlar ve Koşullar", null),
+          con("Mevzuat Bilgilendirmesi", "Gizlilik Politikası", null,l: true),
+          con("Mevzuat Bilgilendirmesi", "Şartlar ve Koşullar", null,l: true),
           con("Sürüm Güncelleme Derlemesi", version, null)
         ],
       ),

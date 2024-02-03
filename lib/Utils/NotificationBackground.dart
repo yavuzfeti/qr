@@ -1,6 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:qr/Components/Alert.dart';
@@ -48,7 +47,6 @@ class NotificationBackground
     await initialize();
     await listen();
     await listenClick();
-    // await listenBackground();
   }
 
   static initialize() async
@@ -63,6 +61,7 @@ class NotificationBackground
         provisional: true,
         sound: true
     );
+    firebaseMessaging.subscribeToTopic("all");
     _setToken((await firebaseMessaging.getToken()).toString());
     firebaseMessaging.onTokenRefresh.listen((String token) async => await _setToken(token));
   }
@@ -70,10 +69,7 @@ class NotificationBackground
   static _setToken(String token) async
   {
     await storage.write(key: "notificationToken", value: token);
-    if(kDebugMode)
-    {
-      print("NOTİFİCATİON TOKEN: $token");
-    }
+    await firebaseMessaging.subscribeToTopic(await storage.read(key: "username")??"all");
   }
 
   static _process(RemoteMessage message) async
@@ -85,8 +81,6 @@ class NotificationBackground
   }
 
   static listen() async => FirebaseMessaging.onMessage.listen((RemoteMessage message) async => await _process(message));
-
-  static listenBackground() async => FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async => await _process(message));
 
   static listenClick() async => FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async => await _process(message));
 
