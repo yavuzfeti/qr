@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:qr/Components/Themes.dart';
+import 'package:qr/Components/Version.dart';
 
 int bottomIndex = 0;
 
@@ -15,6 +16,15 @@ class BottomBar extends StatefulWidget {
 }
 
 class _BottomBarState extends State<BottomBar> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Version().control();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
