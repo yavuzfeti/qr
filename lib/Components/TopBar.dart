@@ -36,7 +36,7 @@ class _TopBarState extends State<TopBar> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
           width: double.infinity,
@@ -48,7 +48,7 @@ class _TopBarState extends State<TopBar> {
             width: MediaQuery.sizeOf(context).width-25,
             height: 13,
             decoration: BoxDecoration(
-              color: Themes.secondaryColor,
+              color: bottomIndex==1 ? Themes.orange : widget.title == "İşlem Geçmişi" ? Themes.green : Themes.secondaryColor,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(15),
@@ -58,10 +58,10 @@ class _TopBarState extends State<TopBar> {
         Expanded(
           child: AppBar(
             elevation: 0,
-            backgroundColor: Themes.back,
+            backgroundColor: widget.title == "home" && bottomIndex != 1 ? Themes.back : Colors.white,
             centerTitle: true,
             title: widget.title == "home"
-                ? Column(
+                ? bottomIndex == 1 ? Text("Bildirimler",style: const TextStyle(color: Themes.text,fontWeight: FontWeight.bold),) : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(

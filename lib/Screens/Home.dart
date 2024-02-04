@@ -109,7 +109,7 @@ class _HomeState extends State<Home> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Bugün ${DateFormat("dd.MM.yyyy").format((DateTime.now()))}",style: TextStyle(fontSize: 15),),
-                          Image.asset("lib/Assets/Images/cizgi.png",width: 125,),
+                          SvgPicture.asset("lib/Assets/Images/cizgi.svg",width: 125,),
                           SizedBox(height: 10,),
                           SvgPicture.asset("lib/Assets/Images/segment.svg",width: 100,),
                         ],

@@ -43,7 +43,7 @@ class _BaseState extends State<Base> {
             icon: Icons.add,
           ),
           GButton(
-            leading: SvgPicture.asset("lib/Assets/Icons/not.svg",color: bottomIndex == 1 ? Themes.dark : Themes.grey,width: 25,height: 25,),
+            leading: SvgPicture.asset("lib/Assets/Icons/not1.svg",color: bottomIndex == 1 ? null : Themes.grey,width: 25,height: 25,),
             text: "Bildirimler",
             icon: Icons.add,
           ),

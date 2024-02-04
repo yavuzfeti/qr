@@ -13,6 +13,7 @@ class Themes
   static const Color lightGrey = Color(0xffF3F3F4);
   static const Color transparent = Colors.transparent;
   static const Color back = Color(0xffF7F7F7);
+  static const Color green = Color(0xff22CA97);
 
   static BoxDecoration decor = BoxDecoration(
       borderRadius: BorderRadius.circular(20),
