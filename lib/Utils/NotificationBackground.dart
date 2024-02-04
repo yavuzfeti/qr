@@ -69,7 +69,7 @@ class NotificationBackground
   static _setToken(String token) async
   {
     await storage.write(key: "notificationToken", value: token);
-    await firebaseMessaging.subscribeToTopic(await storage.read(key: "username")??"all");
+    //await firebaseMessaging.subscribeToTopic(await storage.read(key: "username")??"all");
   }
 
   static _process(RemoteMessage message) async

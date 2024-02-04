@@ -2,19 +2,13 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:qr/Components/Alert.dart';
-import 'package:qr/Components/Themes.dart';
-import 'package:qr/main.dart';
+import 'package:qr/Components/Message.dart';
 
 class Internet
 {
   static late StreamSubscription<ConnectivityResult> _dinleyici;
 
-  static bool servis = false;
-
   static bool internet = true;
-
-  static bool dialogDurum = false;
 
   static void control() async
   {
@@ -30,61 +24,21 @@ class Internet
   static void baslat()
   {
     control();
-    if(!servis)
+    _dinleyici = Connectivity().onConnectivityChanged.listen((sonuc)
     {
-      _dinleyici = Connectivity().onConnectivityChanged.listen((sonuc)
-      {
-        internet = (sonuc == ConnectivityResult.mobile || sonuc == ConnectivityResult.wifi);
-        dialog(internet);
-      });
-      servis = true;
-    }
-  }
-
-  static void durdur()
-  {
-    if(servis)
-    {
-      _dinleyici?.cancel();
-      servis = false;
-      dialogDurum = false;
-    }
+      internet = (sonuc == ConnectivityResult.mobile || sonuc == ConnectivityResult.wifi);
+      dialog(internet);
+    });
   }
 
   static void dialog(bool internet) async
   {
-    if(!internet && !dialogDurum)
+    if(!internet)
     {
-      dialogDurum = true;
-      Alert.show(
-          content: Container(
-            height: 175,
-            padding: const EdgeInsets.all(25),
-            child: const Column(
-              children: [
-                Icon(
-                  Icons.wifi_off_rounded,
-                  size: 50,
-                  color: Themes.dark,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Themes.dark,fontSize: 15),
-                    "Lütfen ağ bağlantınızı kontrol edin")
-              ],
-            ),
-          ),
+      Message.show(
+          "Ağ bağlantısı yok",
+          icon: Icons.wifi_off_rounded
       );
-    }
-    else
-    {
-      if(dialogDurum && internet)
-      {
-        dialogDurum = false;
-      }
     }
   }
 }

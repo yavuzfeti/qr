@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:qr/Components/TopBar.dart';
 import 'package:qr/Utils/Network.dart';
+import 'package:qr/main.dart';
 
 class ProcessHistory extends StatefulWidget {
   const ProcessHistory({super.key});
@@ -30,7 +31,7 @@ class _ProcessHistoryState extends State<ProcessHistory> {
       loading = true;
     });
     id = await storage.read(key: "id");
-    response = await Network("logs?user_id=$id&key=qrpdks_4iJZafkXr1w87NMU3XXguIPYtqw5NP").get();
+    response = await Network("logs?user_id=$id&key=$key").get();
     setState(() {
       loading = false;
     });
@@ -49,7 +50,7 @@ class _ProcessHistoryState extends State<ProcessHistory> {
             {
               return ListTile(
                 title: Text(response[index]["action"] == "1" ? "Giriş" : "Çıkış"),
-                subtitle: Text(DateFormat("dd.MM.yyyy").format((DateTime.parse(response[index]["updated_at"])))),
+                subtitle: Text(DateFormat("dd.MM.yyyy | HH:mm:ss").format((DateTime.parse(response[index]["updated_at"])))),
               );
             }
                   ),
