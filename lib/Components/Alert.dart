@@ -8,6 +8,8 @@ class Alert {
     required dynamic content,
     String? funLabel,
     dynamic fun,
+    String? backLabel,
+    dynamic backFun,
     bool? barrier,
   }) async {
     await showDialog(
@@ -27,13 +29,15 @@ class Alert {
           )
               : null,
           content: content,
-          actions: (funLabel==null && barrier == false) ? null : [
-            if(barrier ?? true)
+          actions: [
+            if(!(barrier ?? true))
               TextButton(
-                onPressed: () {
-                  Navigator.of(alertContext).pop();
+                onPressed: ()
+                {
+                  if(backLabel!=null){backFun();}
+                  else{Navigator.of(alertContext).pop();}
                 },
-                child: const Text(style: TextStyle(color: Themes.dark), "Geri"),
+                child: Text(backLabel!=null ? backLabel : "Geri",style: TextStyle(color: Themes.dark)),
               ),
             if(funLabel!=null)
               TextButton(

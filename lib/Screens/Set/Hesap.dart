@@ -46,7 +46,7 @@ class _HesapState extends State<Hesap> {
     });
   }
 
-  Container con(String text1, String text2, Widget? oge) {
+  Container con(String text1, String text2, Widget? oge, {dynamic fun}) {
     return Container(
       width: double.infinity,
       height: 100,
@@ -76,7 +76,10 @@ class _HesapState extends State<Hesap> {
                 color: Themes.text, fontSize: 15, fontWeight: FontWeight.bold),
           ),
           trailing: IconButton(
-            onPressed: (){},
+            onPressed: ()
+            {
+              if(fun!=null){fun();}
+            },
             icon: Icon(Icons.edit_rounded),
           )),
     );
@@ -116,7 +119,27 @@ class _HesapState extends State<Hesap> {
                       child: Text("E-Posta Adresini Doğrula")
                   ),
                 ),
-                con("Şifre", sifre!, null),
+                con("Şifre", sifre!, null,fun: () async
+                {
+                  TextEditingController sifreC = TextEditingController();
+                  await Alert.show(
+                    title: "Yeni şifre",
+                      content: TextField(
+                        controller: sifreC,
+                      ),
+                    funLabel: "Kaydet",
+                    fun: () async
+                    {
+                      try {
+                        String mail = await storage.read(key: "email") ?? "";
+                        dynamic response = await Network("auth/password-change?email=$mail&key=$key").get();
+                        await Network("auth/password-change?token=${response["token"]}&newPassword=${sifreC.text}").post({});
+                      } catch (e) {
+                        throw Exception(e);
+                      }
+                    }
+                  );
+                }),
                 con("Cep Telefonu", telefon!, null),
                 TextButton(
                     onPressed: () async
@@ -126,14 +149,49 @@ class _HesapState extends State<Hesap> {
                             Text("Hesabınızı silmek istediğinizden emin misiniz?",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),textAlign: TextAlign.center,),
                             Text("Bu kalıcı bir işlemdir ve anında hesabınızdan çıkış yapılır. Aydınlatma Metni ve Gizlilik Politikası kuralları saklıdır.",style: TextStyle(fontSize: 12),textAlign: TextAlign.center,),
                             ElevatedButton(
-                              onPressed: (){},
+                              onPressed: () async
+                              {
+                                await Network("auth/delete").post(
+                                    {
+                                      "user_id":id,
+                                      "key":key
+                                    });
+                                await Alert.show(
+                                  title: "Çıkış yap",
+                                  content: Text("Hesabınız silindi, geri alabilir yada çıkış yapabilirsiniz"),
+                                  barrier: false,
+                                  backLabel: "Geri al",
+                                  backFun: () async
+                                  {
+                                    await Network("auth/undelete").post(
+                                        {
+                                          "user_id":id,
+                                          "key":key
+                                        });
+                                    Navigator.pop(context);
+                                  },
+                                  funLabel: "Çıkış yap",
+                                  fun: ()
+                                  {
+                                  storage.deleteAll();
+                                  Navigator.pushAndRemoveUntil(
+                                  navKey.currentState!.context,
+                                  MaterialPageRoute(builder: (context) => Login()),
+                                  (Route<dynamic> route) => false,
+                                  );
+                                  }
+                                );
+                              },
                               child: Text("EVET, EMİNİM"),
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Themes.red
                               ),
                             ),
                             ElevatedButton(
-                              onPressed: (){},
+                              onPressed: ()
+                              {
+                                Navigator.pop(context);
+                              },
                               child: Text("HAYIR, HESABIMI SİLME"),
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Themes.dark
@@ -157,7 +215,11 @@ class _HesapState extends State<Hesap> {
             ),
             onPressed: () async
             {
-              await Alert.show(title: "Çıkış Yap",content: Text("Çıkış yapmak istediğinize emin misiniz?",style: TextStyle(color: Themes.dark),),funLabel: "Çık",fun: ()
+              await Alert.show(title: "Çıkış yap",
+                  content: Text("Çıkış yapmak istediğinize emin misiniz?",
+                    style: TextStyle(color: Themes.dark),),
+                  funLabel: "Çıkış yap",
+                  fun: ()
               {
                 storage.deleteAll();
                 Navigator.pushAndRemoveUntil(
