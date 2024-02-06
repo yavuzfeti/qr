@@ -30,7 +30,7 @@ class Alert {
               : null,
           content: content,
           actions: [
-            if(!(barrier ?? true))
+            if(backLabel!=null || (barrier??true))
               TextButton(
                 onPressed: ()
                 {

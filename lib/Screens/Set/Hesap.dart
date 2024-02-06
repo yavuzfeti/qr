@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:qr/Components/Alert.dart';
 import 'package:qr/Components/Message.dart';
 import 'package:qr/Components/Sheet.dart';
@@ -88,6 +89,7 @@ class _HesapState extends State<Hesap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Themes.lightGrey,
       appBar: TopBar("Hesap Kimliği ayarları"),
       body: loading
@@ -126,6 +128,16 @@ class _HesapState extends State<Hesap> {
                     title: "Yeni şifre",
                       content: TextField(
                         controller: sifreC,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          hintText: "Yeni şifrenizi giriniz",
+                          hintStyle: TextStyle(color: Themes.grey),
+                        ),
+                        inputFormatters:
+                        [
+                          LengthLimitingTextInputFormatter(6),
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
                       ),
                     funLabel: "Kaydet",
                     fun: () async
@@ -135,6 +147,7 @@ class _HesapState extends State<Hesap> {
                         dynamic response = await Network("auth/password-change?email=$mail&key=$key").get();
                         await Network("auth/password-change?token=${response["token"]}&newPassword=${sifreC.text}").post({});
                       } catch (e) {
+                        Message.show("Hata oluştu her şifre değiştirme işlemi arasında en az 1 saat olmalıdır.");
                         throw Exception(e);
                       }
                     }
