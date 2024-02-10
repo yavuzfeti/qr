@@ -7,7 +7,7 @@ class Themes
   static const Color light = Colors.white;
   static const Color dark = Colors.black;
   static const Color red  = Color(0xffEB004B);
-  static const Color orange = Color(0xffff5613);
+  static const Color orange = Color(0xffff5812);
   static const Color grey = Color(0xff58585B);
   static const Color text = dark;
   static const Color lightGrey = Color(0xffF3F3F4);

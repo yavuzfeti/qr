@@ -3,7 +3,7 @@ description: "Personel Takip Uygulaması"
 
 publish_to: 'none'
 
-version: 3.0.0+3
+version: 4.0.0+4
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -37,8 +37,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  launcher_name: ^1.0.2
-  flutter_launcher_icons: ^0.13.1
 
 flutter:
   uses-material-design: true
@@ -51,15 +49,3 @@ flutter:
   assets:
     - lib/Assets/Images/
     - lib/Assets/Icons/
-
-launcher_name:
-  default: "Personel Takip Sistemi"
-  ios: "Personel Takip Sistemi"
-  android: "Personel Takip Sistemi"
-  web: "Personel Takip Sistemi"
-
-flutter_launcher_icons:
-  android: "ic_launcher"
-  ios: true
-  remove_alpha_ios: true
-  image_path: "lib/Assets/Images/logo.png"
