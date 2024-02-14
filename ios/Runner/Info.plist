@@ -50,5 +50,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Uygulama, kamerayı kullanarak qr kodu okumak için izin istemektedir.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Uygulama, konumunuza erişim istemektedir. Bu bilgi, uygulama her açıldığında kullanılacaktır.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Uygulama, konumunuza erişim istemektedir. Bu bilgi, sadece uygulama aktif olduğunda kullanılacaktır.</string>
 </dict>
 </plist>
