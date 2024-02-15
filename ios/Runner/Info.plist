@@ -58,5 +58,7 @@
 	<string>Uygulama, konumunuza erişim istemektedir. Bu bilgi, uygulama her açıldığında kullanılacaktır.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Uygulama, konumunuza erişim istemektedir. Bu bilgi, sadece uygulama aktif olduğunda kullanılacaktır.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Uygulama, konumunuza erişim istemektedir. Bu bilgi, sadece uygulama aktif olduğunda kullanılacaktır.</string>
 </dict>
 </plist>
