@@ -45,10 +45,7 @@ class _SplashState extends State<Splash> {
     return Scaffold(
       backgroundColor: Themes.lightGrey,
       body: Center(
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 100),
-          child: Image.asset("lib/Assets/Images/logo.png"),
-        ),
+        child: Image.asset("lib/Assets/Images/logo.png",width: 50,)
       ),
     );
   }
