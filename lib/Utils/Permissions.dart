@@ -44,6 +44,24 @@ class Permissions
     return await request(permission);
   }
 
+  static Future<bool> onlyControl(Permission permission) async
+  {
+    PermissionStatus status = await permission.status;
+    if (status.isGranted)
+    {
+      return true;
+    }
+    else if (status.isDenied)
+    {
+      return false;
+    }
+    else if (status.isPermanentlyDenied)
+    {
+      return false;
+    }
+    return false;
+  }
+
   static Future<bool> request(Permission permission) async
   {
     PermissionStatus status = await permission.request();

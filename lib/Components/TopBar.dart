@@ -12,7 +12,7 @@ class TopBar extends StatefulWidget implements PreferredSizeWidget {
   State<TopBar> createState() => _TopBarState();
 
   @override
-  Size get preferredSize => Size.fromHeight(95);
+  Size get preferredSize => Size.fromHeight(100);
 }
 
 class _TopBarState extends State<TopBar> {
@@ -27,7 +27,7 @@ class _TopBarState extends State<TopBar> {
 
   al() async
   {
-    ad = await storage.read(key: "surname") ?? "";
+    ad = await storage.read(key: "name") ?? "";
     setState(() {
       ad;
     });
@@ -41,7 +41,7 @@ class _TopBarState extends State<TopBar> {
         Container(
           width: double.infinity,
           color: Themes.back,
-          height: 30,
+          height: 55,
         ),
         if(widget.title!="home"||bottomIndex==1)
           Container(

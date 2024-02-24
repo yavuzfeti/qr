@@ -230,12 +230,16 @@ class _OptionState extends State<Option> {
             children: [
               Column(
                 children: [
-                  SvgPicture.asset("lib/Assets/Images/logo.svg"),
+                  Image.asset("lib/Assets/Images/logo.png",width: 100,),
+                  SizedBox(height: 5,),
                   Text("QR PDKS",style: TextStyle(fontWeight: FontWeight.bold),),
                 ],
               ),
-              TextButton(onPressed: (){okut();},
-                  child: Text("Devam etmek için tıkla")
+              Padding(
+                padding: const EdgeInsets.all(50),
+                child: ElevatedButton(onPressed: (){okut();},
+                    child: Text("Devam etmek için tıkla",style: TextStyle(fontSize: 18),)
+                ),
               )
             ],
           ),

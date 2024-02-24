@@ -62,14 +62,11 @@ class NotificationBackground
         sound: true
     );
     firebaseMessaging.subscribeToTopic("all");
-    _setToken((await firebaseMessaging.getToken()).toString());
-    firebaseMessaging.onTokenRefresh.listen((String token) async => await _setToken(token));
   }
 
-  static _setToken(String token) async
+  static add(String topic) async
   {
-    await storage.write(key: "notificationToken", value: token);
-    //await firebaseMessaging.subscribeToTopic(await storage.read(key: "username")??"all");
+    await firebaseMessaging.subscribeToTopic(topic);
   }
 
   static _process(RemoteMessage message) async

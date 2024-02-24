@@ -8,6 +8,7 @@ import 'package:qr/Components/Base.dart';
 import 'package:qr/Components/Message.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Utils/Network.dart';
+import 'package:qr/Utils/NotificationBackground.dart';
 import 'package:qr/main.dart';
 
 class Login extends StatefulWidget {
@@ -75,7 +76,6 @@ class _LoginState extends State<Login> {
       );
       await storage.write(key: "id", value: response["response"]["id"].toString() ?? "Veri yok");
       await storage.write(key: "name", value: response["response"]["name"].toString() ?? "Veri yok");
-      await storage.write(key: "surname", value: response["response"]["surname"].toString() ?? "Veri yok");
       await storage.write(key: "phone_code", value: response["response"]["phone_code"].toString() ?? "Veri yok");
       await storage.write(key: "phone", value: response["response"]["phone"].toString() ?? "Veri yok");
       await storage.write(key: "company", value: response["response"]["company"].toString() ?? "Veri yok");
@@ -98,6 +98,11 @@ class _LoginState extends State<Login> {
       await storage.write(key: "password", value: passwordC.text);
 
       await storage.write(key: "session", value: "1");
+
+      await NotificationBackground.add(response["response"]["id"].toString());
+      await NotificationBackground.add(response["response"]["current_team_id"].toString());
+      await NotificationBackground.add(response["response"]["company"].toString());
+
       Navigator.pushAndRemoveUntil(
         navKey.currentState!.context,
         MaterialPageRoute(builder: (context) => Base()),
@@ -127,7 +132,7 @@ class _LoginState extends State<Login> {
               children: [
                 Container(
                   width: double.infinity,
-                  height: MediaQuery.sizeOf(context).height/2,
+                  height: (MediaQuery.sizeOf(context).height/2)-75,
                   decoration: const BoxDecoration(
                     color: Themes.back
                   ),
@@ -160,7 +165,7 @@ class _LoginState extends State<Login> {
                     left: 0,
                     right: 0,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 50),
+                      padding: const EdgeInsets.only(bottom: 70),
                       child: SvgPicture.asset("lib/Assets/Images/torso.svg"),
                     ),
                 ),

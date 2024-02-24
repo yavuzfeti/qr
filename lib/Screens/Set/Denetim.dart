@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Components/TopBar.dart';
 import 'package:qr/Utils/Permissions.dart';
@@ -33,10 +34,13 @@ class _DenetimState extends State<Denetim> {
     setState(() {
       version = status.version;
     });
-    await Permissions.cameraRequest();
-    await Permissions.notificationRequest();
-    await Permissions.locationRequest();
+    Permissions.notification = await Permissions.onlyControl(Permission.notification);
+    Permissions.camera = await Permissions.onlyControl(Permission.camera);
+    Permissions.location = await Permissions.onlyControl(Permission.location);
     setState(() {
+      Permissions.camera;
+      Permissions.notification;
+      Permissions.location;
       loading = false;
     });
   }
@@ -87,17 +91,17 @@ class _DenetimState extends State<Denetim> {
             Switch(
               hoverColor: Themes.mainColor,
               value: Permissions.camera,
-              onChanged: (v)
+              onChanged: (v) async
               {
+                if(!await Permissions.onlyControl(Permission.camera))
+                {
+                Permissions.cameraRequest();
+                }
+                else
+                {
+                Permissions.camera = !Permissions.camera;
+                }
                 setState(() {
-                  if(!Permissions.camera)
-                  {
-                    Permissions.cameraRequest();
-                  }
-                  else
-                  {
-                    Permissions.camera = !Permissions.camera;
-                  }
                 });
               },
             ),
@@ -108,17 +112,17 @@ class _DenetimState extends State<Denetim> {
             Switch(
               hoverColor: Themes.mainColor,
               value: Permissions.notification,
-              onChanged: (v)
+              onChanged: (v) async
               {
+                if(!await Permissions.onlyControl(Permission.notification))
+                {
+                Permissions.notificationRequest();
+                }
+                else
+                {
+                Permissions.notification = !Permissions.notification;
+                }
                 setState(() {
-                  if(!Permissions.notification)
-                  {
-                    Permissions.notificationRequest();
-                  }
-                  else
-                  {
-                    Permissions.notification = !Permissions.notification;
-                  }
                 });
               },
             ),
@@ -129,17 +133,17 @@ class _DenetimState extends State<Denetim> {
             Switch(
               hoverColor: Themes.mainColor,
               value: Permissions.location,
-              onChanged: (v)
+              onChanged: (v) async
               {
+                if(!await Permissions.onlyControl(Permission.location))
+                {
+                  Permissions.locationRequest();
+                }
+                else
+                {
+                  Permissions.location = !Permissions.location;
+                }
                 setState(() {
-                  if(!Permissions.location)
-                  {
-                    Permissions.locationRequest();
-                  }
-                  else
-                  {
-                    Permissions.location = !Permissions.location;
-                  }
                 });
               },
             ),
