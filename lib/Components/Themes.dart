@@ -86,7 +86,7 @@ class Themes
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        primary: secondaryColor,
+        foregroundColor: secondaryColor,
       ),
     ),
     appBarTheme: const AppBarTheme(
