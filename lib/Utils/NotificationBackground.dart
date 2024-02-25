@@ -20,13 +20,15 @@ class NotificationBackground
       priority: Priority.high,
       importance: Importance.high,
       icon: "@mipmap/ic_launcher",
-      color: Themes.secondaryColor
+      color: Themes.secondaryColor,
+      //sound: RawResourceAndroidNotificationSound('notification'),
   );
 
   static const DarwinNotificationDetails _ios = DarwinNotificationDetails(
     presentAlert: true,
     presentBadge: true,
     presentSound: true,
+    //sound: 'notification.aac',
   );
 
   static const NotificationDetails _notDet = NotificationDetails(android: _android, iOS: _ios);
@@ -45,6 +47,7 @@ class NotificationBackground
   static start() async
   {
     await initialize();
+    print(await firebaseMessaging.getToken());
     await listen();
     await listenClick();
   }

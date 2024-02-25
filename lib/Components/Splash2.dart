@@ -14,18 +14,28 @@ class Splash2 extends StatefulWidget {
 
 class _Splash2State extends State<Splash2> {
 
-  String? session = "";
+  List<String> image =
+  [
+    "splash2",
+    "splash3",
+    "splash4",
+    "splash5",
+  ];
+
+  int index = 0;
 
   Future<void> baslat() async
   {
-    if(session == "1")
-    {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Base()));
-    }
-    else
-    {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
-    }
+    setState(() {
+      if(index<image.length-1)
+      {
+        index++;
+      }
+      else
+      {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
+      }
+    });
   }
 
   @override
@@ -35,7 +45,7 @@ class _Splash2State extends State<Splash2> {
       body: Column(
         children: [
           Center(
-              child: SvgPicture.asset("lib/Assets/Images/splash2.svg")
+              child: SvgPicture.asset("lib/Assets/Images/${image[index]}.svg",height: MediaQuery.sizeOf(context).height-100,)
           ),
           Container(
             decoration: BoxDecoration(
@@ -45,7 +55,7 @@ class _Splash2State extends State<Splash2> {
             child: IconButton(
               iconSize: 40,
               onPressed: baslat,
-              icon: Icon(Icons.keyboard_arrow_right_rounded,color: Themes.light,),
+              icon: Icon(Icons.keyboard_arrow_right_rounded,color: Themes.light),
             ),
           )
         ],

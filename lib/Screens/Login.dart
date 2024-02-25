@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pin_code_text_field/pin_code_text_field.dart';
 import 'package:qr/Components/Base.dart';
 import 'package:qr/Components/Message.dart';
 import 'package:qr/Components/Themes.dart';
@@ -198,10 +197,29 @@ class _LoginState extends State<Login> {
                     Expanded(
                       child: PageView(
                         controller: _pageController,
+                        onPageChanged: (v)
+                        {
+                        if(usernameC.text.length > 20)
+                        {
+                        userFocus.unfocus();
+                        setState(() {
+                        label = "Şifre";
+                        });
+                        isActiveFun();
+                        }
+                        else{
+                          _pageController.animateToPage(
+                            0,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                        },
                         children: [
                           Center(
                             child: TextField(
                               autofocus: true,
+                              cursorColor: Themes.grey,
                               decoration: const InputDecoration(
                                 hintStyle: TextStyle(color: Themes.grey),
                                 hintText: "+90 | (5xx) xxx xx xx",
@@ -234,24 +252,22 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                         Center(
-                          child: PinCodeTextField(
+                          child: TextField(
                             autofocus: true,
+                            cursorColor: Themes.grey,
                             focusNode: passFocus,
                             controller: passwordC,
-                            pinBoxBorderWidth: 0,
-                          pinBoxColor: Themes.lightGrey,
-                          pinBoxRadius: 15,
-                          maxLength: 6,
-                            defaultBorderColor: Themes.transparent,
-                            hasTextBorderColor:Themes.transparent,
-                            wrapAlignment: WrapAlignment.center,
-                            pinBoxHeight: 40,
-                            pinBoxWidth: 40,
-                            hideCharacter: true,
-                            onDone: (v)
+                            obscureText: true,
+                            obscuringCharacter: "*",
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: "******",
+                              hintStyle: TextStyle(color: Themes.grey),
+                              border: InputBorder.none
+                            ),
+                            onChanged: (v)
                             {
                               isActiveFun();
-                              if(isActive){login();}
                             },
                           ),
                         ),

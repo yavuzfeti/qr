@@ -8,6 +8,7 @@ import 'package:qr/Components/TopBar.dart';
 import 'package:qr/Utils/Network.dart';
 import 'package:qr/Utils/Permissions.dart';
 import 'package:qr/main.dart';
+import 'package:vibration/vibration.dart';
 
 class Option extends StatefulWidget {
 
@@ -110,6 +111,7 @@ class _OptionState extends State<Option> {
 
   success() async
   {
+    Vibration.vibrate(duration: 500);
     await Sheet.show(
       [
         Text("İŞLEM BAŞARILI",style: TextStyle(color: Themes.dark,fontSize: 17,fontWeight: FontWeight.bold),),
@@ -125,6 +127,8 @@ class _OptionState extends State<Option> {
 
   err() async
   {
+    Vibration.vibrate(duration: 1000);
+    print(await Vibration.hasVibrator());
     await Sheet.show(
         [
           Text("İŞLEM BAŞARISIZ",style: TextStyle(color: Themes.dark,fontSize: 17,fontWeight: FontWeight.bold),),
