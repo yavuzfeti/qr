@@ -11,6 +11,33 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends State<Notifications> {
+
+  int index = 0;
+
+  Container tab(String text,int i)
+  {
+    return Container(
+      margin: EdgeInsets.only(right: 5),
+      padding: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: index==i ? Themes.secondaryColor : Themes.transparent
+      ),
+      child: InkWell(
+        onTap: ()
+        {
+          setState(() {
+            index = i;
+          });
+        },
+        child: Text(
+          text,
+          style: TextStyle(color: index==i ? Themes.light : Themes.dark),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context)
   {
@@ -27,11 +54,24 @@ class _NotificationsState extends State<Notifications> {
                 SvgPicture.asset("lib/Assets/Images/notifi.svg",width: 250,),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Bildirim Geçmişi",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
-                      Text("Günlük ${dateToDartTrans(DateTime.now())}")
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("İşlem Geçmişi",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+                          Text("Günlük ${dateToDartTrans(DateTime.now())}")
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          tab("Günlük",0),
+                          tab("Haftalık",1),
+                          tab("Aylık",2),
+                        ],
+                      ),
                     ],
                   ),
                 ),
