@@ -55,6 +55,7 @@ class _ProcessHistoryState extends State<ProcessHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Themes.lightGrey,
       appBar: TopBar("İşlem Geçmişi"),
       body: loading ? Center(child: CircularProgressIndicator(),)
           : Column(
@@ -107,8 +108,9 @@ class _ProcessHistoryState extends State<ProcessHistory> {
           ),
           Expanded(
             child: Container(
-              decoration: Themes.decor,
-              margin: const EdgeInsets.all(20),
+              color: Themes.light,
+              margin: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Scrollbar(
                 child: ListView.builder(
                     itemCount: response.length ?? 0,

@@ -40,11 +40,12 @@ class _NotificationsState extends State<Notifications> {
         ),
         Expanded(
           child: Container(
-            decoration: Themes.decor,
-            margin: EdgeInsets.all(20),
+            color: Themes.light,
+            margin: const EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Scrollbar(
               child: ListView.builder(
-                  itemCount: 20,
+                  itemCount: 1,
                   itemBuilder: (context, index)
                   {
                     return Column(

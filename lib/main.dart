@@ -8,9 +8,12 @@ import 'package:qr/Components/Splash.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Utils/NotificationBackground.dart';
 import 'package:qr/firebase_options.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
+String monthStr(dynamic date) => DateFormat.MMMM('tr_TR').format(DateTime.parse(date.toString())).toString();
 String dateToDartTrans(dynamic date) => (DateFormat("dd.MM.yyyy").format((DateTime.parse(date.toString())))).toString();
 String key = "qrpdks_4iJZafkXr1w87NMU3XXguIPYtqw5NP";
 
@@ -23,6 +26,8 @@ void main() async
 
   NotificationBackground.start();
 
+  await initializeDateFormatting('tr_TR', null);
+
   Internet.gecBaslat(splashSure + 1000);
 
   SystemChrome.setPreferredOrientations(
@@ -34,6 +39,8 @@ void main() async
 
   runApp(
     MaterialApp(
+      localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate, GlobalWidgetsLocalizations.delegate,],
+      supportedLocales: [const Locale('tr', 'TR')],
       debugShowCheckedModeBanner: kDebugMode,
       title: "QrPdks",
       theme: Themes.theme,

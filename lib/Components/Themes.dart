@@ -60,7 +60,19 @@ class Themes
   );
 
   static ThemeData theme = ThemeData(
+
     useMaterial3: true,
+
+    appBarTheme: AppBarTheme(
+      elevation: 0,
+      shadowColor: light,
+      surfaceTintColor: light,
+      color: light,
+      iconTheme: IconThemeData(
+        color: text,
+      ),
+    ),
+
     textTheme: const TextTheme(
       bodyText1: TextStyle(color: text),
       bodyText2: TextStyle(color: text),
@@ -89,11 +101,7 @@ class Themes
         foregroundColor: secondaryColor,
       ),
     ),
-    appBarTheme: const AppBarTheme(
-      iconTheme: IconThemeData(
-        color: text,
-      ),
-    ),
+
     colorScheme: const ColorScheme.light(
       primary: mainColor,
       onPrimary: Colors.white,
