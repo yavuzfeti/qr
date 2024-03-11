@@ -21,7 +21,7 @@ class _NotificationsState extends State<Notifications> {
       padding: EdgeInsets.all(5),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: index==i ? Themes.secondaryColor : Themes.transparent
+          color: index==i ? Themes.mainColor : Themes.transparent
       ),
       child: InkWell(
         onTap: ()

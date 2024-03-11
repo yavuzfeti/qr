@@ -48,7 +48,7 @@ class _TopBarState extends State<TopBar> {
             width: MediaQuery.sizeOf(context).width-25,
             height: 13,
             decoration: BoxDecoration(
-              color: bottomIndex==1 ? Themes.orange : widget.title == "İşlem Geçmişi" ? Themes.green : Themes.secondaryColor,
+              color: widget.title == "İşlem Geçmişi" ? Themes.green : Themes.mainColor,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(15),

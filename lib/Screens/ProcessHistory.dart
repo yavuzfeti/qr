@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Components/TopBar.dart';
@@ -81,7 +79,7 @@ class _ProcessHistoryState extends State<ProcessHistory> {
       padding: EdgeInsets.all(5),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: index==i ? Themes.secondaryColor : Themes.transparent
+          color: index==i ? Themes.mainColor : Themes.transparent
       ),
       child: InkWell(
         onTap: ()
@@ -132,7 +130,7 @@ class _ProcessHistoryState extends State<ProcessHistory> {
                           if (data['category'] == 'Giriş') {
                             return Themes.green;
                           } else if (data['category'] == 'Çıkış') {
-                            return Themes.secondaryColor;
+                            return Themes.mainColor;
                           }
                           return Themes.grey;
                         },

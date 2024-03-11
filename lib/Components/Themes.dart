@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 class Themes
 {
-  static const Color mainColor = Color(0xff9694FF);
-  static const Color secondaryColor = Color(0xff6B52F5);
+  static const Color mainColor = Color(0xffEB004B);
   static const Color light = Colors.white;
   static const Color dark = Colors.black;
   static const Color red  = Color(0xffEB004B);
@@ -43,22 +42,6 @@ class Themes
     }
   );
 
-  static MaterialColor secondarySwatch = MaterialColor(
-    secondaryColor.value,
-    const <int, Color>{
-      50: Color(0xFFE6E5FF),
-      100: Color(0xFFC0BEFF),
-      200: Color(0xFF9A98FF),
-      300: Color(0xFF746EFF),
-      400: Color(0xFF4E49FF),
-      500: Color(0xFF2823FF),
-      600: Color(0xFF2420E5),
-      700: Color(0xFF1B1A99),
-      800: Color(0xFF13134D),
-      900: Color(0xFF0C0C27),
-    },
-  );
-
   static ThemeData theme = ThemeData(
 
     useMaterial3: true,
@@ -88,7 +71,7 @@ class Themes
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: secondaryColor,
+        backgroundColor: mainColor,
         foregroundColor: light,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -98,19 +81,19 @@ class Themes
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        foregroundColor: secondaryColor,
+        foregroundColor: mainColor,
       ),
     ),
 
     colorScheme: const ColorScheme.light(
       primary: mainColor,
       onPrimary: Colors.white,
-      secondary: secondaryColor,
+      secondary: mainColor,
       onSecondary: Colors.black,
     ),
-    splashColor: secondaryColor,
+    splashColor: mainColor,
     canvasColor: light,
-    cardColor: secondaryColor,
+    cardColor: mainColor,
     primaryColor: mainColor,
     primarySwatch: mainSwatch,
     hintColor: mainColor,

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:qr/Components/Base.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Screens/Login.dart';
-import 'package:qr/Utils/Network.dart';
 
 class Splash2 extends StatefulWidget {
   const Splash2({super.key});
@@ -49,7 +47,7 @@ class _Splash2State extends State<Splash2> {
           ),
           Container(
             decoration: BoxDecoration(
-              color: Themes.orange,
+              color: Themes.mainColor,
               borderRadius: BorderRadius.circular(100)
             ),
             child: IconButton(

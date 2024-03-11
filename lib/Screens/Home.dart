@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Screens/Option.dart';
-import 'package:intl/intl.dart';
 import 'package:qr/Screens/ProcessHistory.dart';
 import 'package:qr/Utils/Network.dart';
 import 'package:qr/main.dart';
@@ -96,7 +95,7 @@ class _HomeState extends State<Home> {
                   height: 25,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    color: Themes.secondaryColor
+                    color: Themes.mainColor
                   ),
                   child: Center(child: Text("Başla",style: TextStyle(color: Themes.light),)),
                 ),

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:qr/Components/Alert.dart';
 import 'package:qr/Components/Themes.dart';
-import 'package:qr/Utils/Network.dart';
 
 class NotificationBackground
 {
@@ -20,7 +19,7 @@ class NotificationBackground
       priority: Priority.high,
       importance: Importance.high,
       icon: "@mipmap/ic_launcher",
-      color: Themes.secondaryColor,
+      color: Themes.mainColor,
       //sound: RawResourceAndroidNotificationSound('notification'),
   );
 
@@ -47,7 +46,6 @@ class NotificationBackground
   static start() async
   {
     await initialize();
-    print(await firebaseMessaging.getToken());
     await listen();
     await listenClick();
   }

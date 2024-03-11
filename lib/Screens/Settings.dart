@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Screens/Set/Denetim.dart';

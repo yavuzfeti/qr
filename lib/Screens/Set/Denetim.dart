@@ -5,7 +5,6 @@ import 'package:qr/Components/Themes.dart';
 import 'package:qr/Components/TopBar.dart';
 import 'package:qr/Screens/ContentView.dart';
 import 'package:qr/Utils/Permissions.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Denetim extends StatefulWidget {
   const Denetim({super.key});

@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qr/Components/Base.dart';
 import 'package:qr/Components/Splash2.dart';
-import 'dart:async';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Utils/Network.dart';
 
@@ -44,7 +45,7 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Themes.orange,
+      backgroundColor: Themes.mainColor,
       body: Center(
         child: SvgPicture.asset("lib/Assets/Images/logo_buyuk.svg",width: 125,)
       ),

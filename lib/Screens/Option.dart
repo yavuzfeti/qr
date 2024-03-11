@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:qr/Components/Sheet.dart';
 import 'package:qr/Components/Themes.dart';
@@ -23,84 +24,15 @@ class _OptionState extends State<Option> {
 
   okut() async
   {
-    Sheet.show(
-        [
-          SizedBox(height: 25,),
-          if(widget.title == "Konumlu Uzaktan")
-            Text("QR kod okutmadan uzaktan, mesai hareketi işleyebilirsin",textAlign: TextAlign.center,style: TextStyle(fontSize: 18,color: Themes.grey),),
-          if(widget.title == "QR Okutmalı")
-            Text("QR kod ile mesai hareketi işleyebilirsin",textAlign: TextAlign.center,style: TextStyle(fontSize: 18,color: Themes.grey),),
-          ElevatedButton(
-            onPressed: ()
-            {
-              if(widget.title == "Konumlu Uzaktan")
-              {
-                Navigator.pop(context);
-                setState(() {
-                  loading = true;
-                });
-                giriskonum();
-              }
-              else if(widget.title == "QR Okutmalı")
-              {
-                Navigator.pop(context);
-                setState(() {
-                  loading = true;
-                });
-                girisqr();
-              }
-            },
-            child: Text("Giriş Yap"),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Themes.dark
-            ),
-            onPressed:()
-            {
-              if(widget.title == "Konumlu Uzaktan")
-              {
-                Navigator.pop(context);
-                setState(() {
-                  loading = true;
-                });
-                cikiskonum();
-              }
-              else if(widget.title == "QR Okutmalı")
-              {
-                Navigator.pop(context);
-                setState(() {
-                  loading = true;
-                });
-                cikisqr();
-              }
-            },
-            child: Text("Çıkış Yap"),
-          ),
-          SizedBox(height: 25,)
-        ]);
-    if(widget.title == "Konumlu Uzaktan")
-    {
-      await Permissions.locationRequest();
-    }
-    else if(widget.title == "QR Okutmalı")
-    {
-      await Permissions.locationRequest();
-      await Permissions.cameraRequest();
-    }
     id = await storage.read(key: "id");
-    if(Permissions.location)
-    {
-      position = await Geolocator.getCurrentPosition();
-    }
+    await Geolocator.requestPermission();
+    position = await Geolocator.getCurrentPosition();
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      okut();
-    });
+    okut();
   }
 
   String qr = "";
@@ -114,10 +46,10 @@ class _OptionState extends State<Option> {
     Vibration.vibrate(duration: 500);
     await Sheet.show(
       [
-        Text("İŞLEM BAŞARILI",style: TextStyle(color: Themes.dark,fontSize: 17,fontWeight: FontWeight.bold),),
+        const Text("İŞLEM BAŞARILI",style: TextStyle(color: Themes.dark,fontSize: 17,fontWeight: FontWeight.bold),),
         SvgPicture.asset("lib/Assets/Images/succes.svg"),
-        Text("İşleminiz başarıyla gönderilmiştir.\nİşlem tarihiniz ${dateToDartTrans(DateTime.now())}",style: TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
-        ElevatedButton(onPressed: (){Navigator.pop(context);Navigator.pop(context);}, child: Text("Ana Sayfa"))
+        Text("İşleminiz başarıyla gönderilmiştir.\nİşlem tarihiniz ${dateToDartTrans(DateTime.now())}",style: const TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
+        ElevatedButton(onPressed: (){Navigator.pop(context);Navigator.pop(context);}, child: const Text("Ana Sayfa"))
       ]
     );
     setState(() {
@@ -128,13 +60,12 @@ class _OptionState extends State<Option> {
   err() async
   {
     Vibration.vibrate(duration: 1000);
-    print(await Vibration.hasVibrator());
     await Sheet.show(
         [
-          Text("İŞLEM BAŞARISIZ",style: TextStyle(color: Themes.dark,fontSize: 17,fontWeight: FontWeight.bold),),
+          const Text("İŞLEM BAŞARISIZ",style: TextStyle(color: Themes.dark,fontSize: 17,fontWeight: FontWeight.bold),),
           SvgPicture.asset("lib/Assets/Images/err.svg",width: 75,),
-          Text("Cihaz belirlenen konumun dışındadır!\nLütfen QR kod ekranı deneyin",style: TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
-          ElevatedButton(onPressed: (){Navigator.pop(context);okut();}, child: Text("Başla"))
+          const Text("Cihaz belirlenen konumun dışındadır!\nLütfen QR kod ekranı deneyin",style: TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
+          ElevatedButton(onPressed: (){Navigator.pop(context);okut();}, child: const Text("Başla"))
         ]
     );
     setState(() {
@@ -144,8 +75,6 @@ class _OptionState extends State<Option> {
 
   cikisqr() async
   {
-    if(Permissions.camera)
-    {
       qr = (await FlutterBarcodeScanner.scanBarcode(
         '#000000',
         "İptal",
@@ -162,13 +91,11 @@ class _OptionState extends State<Option> {
       {
         err();
       }
-    }
   }
 
   girisqr() async
   {
-    if(Permissions.camera)
-    {
+
       qr = (await FlutterBarcodeScanner.scanBarcode(
         '#000000',
         "İptal",
@@ -185,13 +112,11 @@ class _OptionState extends State<Option> {
       {
         err();
       }
-    }
   }
 
   cikiskonum() async
   {
-    if(Permissions.location)
-    {
+
       try {
         String? token = await storage.read(key: "current_team_id");
         await Network("locations-user?user_id=$id&company_token=$token&key=$key&coordinates=${position.latitude},${position.longitude}").get();
@@ -201,13 +126,10 @@ class _OptionState extends State<Option> {
       {
         err();
       }
-    }
   }
 
   giriskonum() async
   {
-    if(Permissions.location)
-    {
       try {
         String? token = await storage.read(key: "current_team_id");
         await Network("locations-user?user_id=$id&company_token=$token&key=$key&coordinates=${position.latitude},${position.longitude}").get();
@@ -216,7 +138,6 @@ class _OptionState extends State<Option> {
       }catch (e) {
         err();
       }
-    }
   }
 
   @override
@@ -225,24 +146,109 @@ class _OptionState extends State<Option> {
       backgroundColor: Themes.back,
       appBar: TopBar(widget.title),
       body: Center(
-        child: loading ? CircularProgressIndicator() :
+        child: loading ? const CircularProgressIndicator() :
         Container(
           alignment: Alignment.topCenter,
-          padding: EdgeInsets.only(top: 100),
+          padding: const EdgeInsets.only(top: 100),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                children: [
-                  Image.asset("lib/Assets/Images/logo.png",width: 100,),
-                  SizedBox(height: 5,),
-                  Text("QR PDKS",style: TextStyle(fontWeight: FontWeight.bold),),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(50),
-                child: ElevatedButton(onPressed: (){okut();},
-                    child: Text("Devam etmek için tıkla",style: TextStyle(fontSize: 18),)
+              SvgPicture.asset("lib/Assets/Images/logo.svg",width: 90,),
+              Container(
+                height: MediaQuery.sizeOf(context).height/2,
+                decoration: const BoxDecoration(
+                  color: Themes.light,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 25,
+                        offset: Offset(1, 1),
+                      ),
+                    ]
+                ),
+                width: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 8,
+                      margin: const EdgeInsets.only(top: 25),
+                      decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(5)
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(50),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 20,),
+                          if(widget.title == "Konumlu Uzaktan")
+                            const Text("QR kod okutmadan uzaktan, mesai hareketi işleyebilirsin",textAlign: TextAlign.center,style: TextStyle(fontSize: 18,color: Themes.grey),),
+                          if(widget.title == "QR Okutmalı")
+                            const Text("QR kod ile mesai hareketi işleyebilirsin",textAlign: TextAlign.center,style: TextStyle(fontSize: 18,color: Themes.grey),),
+                          const SizedBox(height: 35,),
+                          ElevatedButton(
+                            onPressed: ()
+                            {
+                              if(widget.title == "Konumlu Uzaktan")
+                              {
+                                Navigator.pop(context);
+                                setState(() {
+                                  loading = true;
+                                });
+                                giriskonum();
+                              }
+                              else if(widget.title == "QR Okutmalı")
+                              {
+                                Navigator.pop(context);
+                                setState(() {
+                                  loading = true;
+                                });
+                                girisqr();
+                              }
+                            },
+                            child: const Text("Giriş Yap"),
+                          ),
+                          const SizedBox(height: 25,),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Themes.dark
+                            ),
+                            onPressed:()
+                            {
+                              if(widget.title == "Konumlu Uzaktan")
+                              {
+                                Navigator.pop(context);
+                                setState(() {
+                                  loading = true;
+                                });
+                                cikiskonum();
+                              }
+                              else if(widget.title == "QR Okutmalı")
+                              {
+                                Navigator.pop(context);
+                                setState(() {
+                                  loading = true;
+                                });
+                                cikisqr();
+                              }
+                            },
+                            child: const Text("Çıkış Yap"),
+                          ),
+                          const SizedBox(height: 25,)
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               )
             ],

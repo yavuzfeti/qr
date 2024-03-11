@@ -45,7 +45,7 @@ class Alert {
                   fun();
                 },
                 child: Text(
-                    style: const TextStyle(color: Themes.secondaryColor), funLabel),
+                    style: const TextStyle(color: Themes.mainColor), funLabel),
               ),
           ],
         ),

@@ -10,7 +10,7 @@ class Message
       SnackBar(
         elevation: 5,
         duration: const Duration(seconds: 2),
-        backgroundColor: Themes.secondaryColor,
+        backgroundColor: Themes.mainColor,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
