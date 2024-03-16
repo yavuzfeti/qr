@@ -1,7 +1,9 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:qr/Components/Alert.dart';
 import 'package:qr/Components/Message.dart';
+import 'package:qr/Components/Sheet.dart';
+import 'package:qr/main.dart';
 
 class Permissions
 {
@@ -76,7 +78,7 @@ class Permissions
     }
     else if (status.isPermanentlyDenied)
     {
-      await Message.show("İzin kalıcı olarak reddedildi, ayarlara yönlendiriliyorsunuz");
+      await Message.show("İzin kalıcı olarak reddedildi");
       return false;
     }
     return false;
@@ -86,15 +88,30 @@ class Permissions
   {
     if(permission==Permission.camera)
     {
-      await Alert.show(content: const Text("QR kodu okutmak için kamera izni vermeniz gerekiyor."));
+      await show("KAMERA ONAYI","QR kodu okutmak için kamera izni vermeniz gerekiyor.");
     }
     else if(permission==Permission.notification)
     {
-      await Alert.show(content: const Text("Bildirim gösterebilmemiz için bildirimlere izin vermeniz gerekiyor."));
+      await show("BİLDİRİM ONAYI","QR PDKS mesai başlangıcı ve bitişinden önce senin için özel bildirimlerimiz olacak. Seninle daha yakın ve etkili iletişim kurmak için sabırsızlanıyoruz!");
     }
     else if(permission==Permission.location)
     {
-      await Alert.show(content: const Text("Konumunuzu kullanarak giriş yapabilmeniz için konum izni vermeniz gerekiyor."));
+      await show("KONUM ONAYI","Konumunuzu kullanarak giriş yapabilmeniz için konum izni vermeniz gerekiyor.");
     }
+  }
+
+  static show(String text,String text2) async
+  {
+    await Sheet.show(
+      [
+        Text(text,style: const TextStyle(fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+        SvgPicture.asset("lib/Assets/Icons/bell.svg"),
+        Text(text2,textAlign: TextAlign.center,),
+        ElevatedButton(
+            onPressed: (){Navigator.pop(navKey.currentState!.context);},
+            child: const Text("İZİN VER")
+        ),
+      ]
+    );
   }
 }

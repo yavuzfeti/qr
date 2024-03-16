@@ -45,9 +45,16 @@ class Themes
   static ThemeData theme = ThemeData(
 
     useMaterial3: true,
+    
+    scrollbarTheme: ScrollbarThemeData(
+      thumbColor: MaterialStatePropertyAll(mainColor),
+      radius: Radius.circular(10)
+      
+    ),
 
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       elevation: 0,
+      scrolledUnderElevation: 0,
       shadowColor: light,
       surfaceTintColor: light,
       color: light,

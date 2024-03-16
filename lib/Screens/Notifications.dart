@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:qr/Components/EmptyPage.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/main.dart';
 
@@ -13,6 +14,7 @@ class Notifications extends StatefulWidget {
 class _NotificationsState extends State<Notifications> {
 
   int index = 0;
+  bool empty = false;
 
   Container tab(String text,int i)
   {
@@ -41,7 +43,9 @@ class _NotificationsState extends State<Notifications> {
   @override
   Widget build(BuildContext context)
   {
-    return Column(
+    return empty
+        ? const EmptyPage("emptygreen", "İşlem Geçmişi boş görünüyor.", "Henüz eklenen işlem bulunmuyor.")
+        : Column(
       children: [
         Container(
           alignment: Alignment.topLeft,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:qr/Components/EmptyPage.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Components/TopBar.dart';
 import 'package:qr/Utils/Network.dart';
@@ -29,6 +30,7 @@ class _ProcessHistoryState extends State<ProcessHistory> {
   int cikis = 1;
 
   int index = 0;
+  bool empty = false;
 
   dynamic response;
   List<Map<String,dynamic>> day = [];
@@ -41,31 +43,40 @@ class _ProcessHistoryState extends State<ProcessHistory> {
     });
     id = await storage.read(key: "id");
     response = await Network("logs?user_id=$id&key=$key").get();
-    giris = 0;
-    cikis = 0;
-    day = [];
-    hafta = [];
-    List<String> sevenDaysList = List.generate(7, (index)
+    if(response!=null||response.isEmpty)
     {
-      return dateToDartTrans(DateTime.now().add(Duration(days: index)));
-    });
-    for (var value in response)
+      giris = 0;
+      cikis = 0;
+      day = [];
+      hafta = [];
+      List<String> sevenDaysList = List.generate(7, (index)
+      {
+        return dateToDartTrans(DateTime.now().add(Duration(days: index)));
+      });
+      for (var value in response)
+      {
+        String valuedate = dateToDartTrans(value["updated_at"]);
+        if (value["action"] == "0")
+        {
+          giris++;
+        } else if (value["action"] == "1") {
+          cikis++;
+        }
+        if (valuedate==dateToDartTrans(DateTime.now()))
+        {
+          day.add(value);
+        }
+        if (sevenDaysList.contains(valuedate))
+        {
+          hafta.add(value);
+        }
+      }
+    }
+    else
     {
-      String valuedate = dateToDartTrans(value["updated_at"]);
-      if (value["action"] == "0")
-      {
-        giris++;
-      } else if (value["action"] == "1") {
-        cikis++;
-      }
-      if (valuedate==dateToDartTrans(DateTime.now()))
-      {
-        day.add(value);
-      }
-      if (sevenDaysList.contains(valuedate))
-      {
-        hafta.add(value);
-      }
+      setState(() {
+        empty = true;
+      });
     }
     setState(() {
       loading = false;
@@ -103,6 +114,8 @@ class _ProcessHistoryState extends State<ProcessHistory> {
       backgroundColor: Themes.lightGrey,
       appBar: TopBar("İşlem Geçmişi"),
       body: loading ? Center(child: CircularProgressIndicator(),)
+          : empty
+          ? const EmptyPage("emptygreen", "İşlem Geçmişi boş görünüyor.", "Henüz eklenen işlem bulunmuyor.")
           : Column(
         children: [
           Container(

@@ -46,6 +46,9 @@ flutter:
       fonts:
         - asset: lib/Assets/Fonts/Inter/Inter-Regular.ttf
         - asset: lib/Assets/Fonts/Inter/Inter-Bold.ttf
+    - family: Gesta
+      fonts:
+        - asset: lib/Assets/Fonts/Gesta/Regular.ttf
 
   assets:
     - lib/Assets/Images/

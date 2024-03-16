@@ -37,7 +37,7 @@ class _HesapState extends State<Hesap> {
     setState(() {
       loading = true;
     });
-    adSoyad = "${await storage.read(key: "name")} ${await storage.read(key: "surname")}";
+    adSoyad = "${await storage.read(key: "name")}";
     mail = await storage.read(key: "email") ?? "";
     telefon = "${await storage.read(key: "username")}";
     id = "${await storage.read(key: "id")}";

@@ -39,6 +39,15 @@ void main() async
 
   runApp(
     MaterialApp(
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+              alwaysUse24HourFormat: true,
+              textScaler: const TextScaler.linear(1.0)
+          ),
+          child: child!,
+        );
+      },
       localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate, GlobalWidgetsLocalizations.delegate,],
       supportedLocales: [const Locale('tr', 'TR')],
       debugShowCheckedModeBanner: kDebugMode,
