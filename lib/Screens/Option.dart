@@ -51,7 +51,7 @@ class _OptionState extends State<Option> {
         const Text("İŞLEM BAŞARILI",style: TextStyle(color: Themes.dark,fontSize: 17,fontWeight: FontWeight.bold),),
         SvgPicture.asset("lib/Assets/Images/succes.svg"),
         Text("İşleminiz başarıyla gönderilmiştir.\nİşlem tarihiniz ${dateToDartTrans(DateTime.now())}",style: const TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
-        ElevatedButton(onPressed: (){Navigator.pop(context);Navigator.pop(context);}, child: const Text("Ana Sayfa"))
+        ElevatedButton(onPressed: (){Navigator.pop(context);}, child: const Text("Ana Sayfa"))
       ]
     );
     setState(() {
@@ -67,7 +67,7 @@ class _OptionState extends State<Option> {
           const Text("İŞLEM BAŞARISIZ",style: TextStyle(color: Themes.dark,fontSize: 17,fontWeight: FontWeight.bold),),
           SvgPicture.asset("lib/Assets/Images/err.svg",width: 75,),
           const Text("Cihaz belirlenen konumun dışındadır!\nLütfen QR kod ekranı deneyin",style: TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
-          ElevatedButton(onPressed: (){Navigator.pop(context);okut();}, child: const Text("Başla"))
+          ElevatedButton(onPressed: (){okut();}, child: const Text("Başla"))
         ]
     );
     setState(() {
@@ -206,7 +206,6 @@ class _OptionState extends State<Option> {
                               {
                                 if(widget.title == "Konumlu Uzaktan")
                                 {
-                                  Navigator.pop(context);
                                   setState(() {
                                     loading = true;
                                   });
@@ -214,7 +213,6 @@ class _OptionState extends State<Option> {
                                 }
                                 else if(widget.title == "QR Okutmalı")
                                 {
-                                  Navigator.pop(context);
                                   setState(() {
                                     loading = true;
                                   });
@@ -232,7 +230,6 @@ class _OptionState extends State<Option> {
                               {
                                 if(widget.title == "Konumlu Uzaktan")
                                 {
-                                  Navigator.pop(context);
                                   setState(() {
                                     loading = true;
                                   });
@@ -240,7 +237,6 @@ class _OptionState extends State<Option> {
                                 }
                                 else if(widget.title == "QR Okutmalı")
                                 {
-                                  Navigator.pop(context);
                                   setState(() {
                                     loading = true;
                                   });

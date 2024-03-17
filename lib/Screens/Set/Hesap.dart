@@ -5,6 +5,7 @@ import 'package:qr/Components/Message.dart';
 import 'package:qr/Components/Sheet.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Components/TopBar.dart';
+import 'package:qr/Screens/ChangeUser.dart';
 import 'package:qr/Screens/Login.dart';
 import 'package:qr/Utils/Network.dart';
 import 'package:qr/main.dart';
@@ -101,7 +102,10 @@ class _HesapState extends State<Hesap> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                con("Adınız Soyadınız", adSoyad!, null),
+                con("Adınız Soyadınız", adSoyad!,null,fun: (){Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ChangeUser("name")),
+            );}),
                 con("E-Posta", mail!,
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -120,40 +124,18 @@ class _HesapState extends State<Hesap> {
                       },
                       child: Text("E-Posta Adresini Doğrula")
                   ),
-                ),
-                con("Şifre", sifre!, null,fun: () async
-                {
-                  TextEditingController sifreC = TextEditingController();
-                  await Alert.show(
-                    title: "Yeni şifre",
-                      content: TextField(
-                        controller: sifreC,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          hintText: "Yeni şifrenizi giriniz",
-                          hintStyle: TextStyle(color: Themes.grey),
-                        ),
-                        inputFormatters:
-                        [
-                          LengthLimitingTextInputFormatter(6),
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                      ),
-                    funLabel: "Kaydet",
-                    fun: () async
-                    {
-                      try {
-                        String mail = await storage.read(key: "email") ?? "";
-                        dynamic response = await Network("auth/password-change?email=$mail&key=$key").get();
-                        await Network("auth/password-change?token=${response["token"]}&newPassword=${sifreC.text}").post({});
-                      } catch (e) {
-                        Message.show("Hata oluştu her şifre değiştirme işlemi arasında en az 1 saat olmalıdır.");
-                        throw Exception(e);
-                      }
-                    }
-                  );
-                }),
-                con("Cep Telefonu", telefon!, null),
+                    fun:(){Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChangeUser("mail")),
+                    );}),
+                con("Şifre", sifre!, null,fun: (){Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChangeUser("password")),
+                );}),
+                con("Cep Telefonu", telefon!,null,fun: (){Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChangeUser("phone")),
+                );}),
                 TextButton(
                     onPressed: () async
                     {
