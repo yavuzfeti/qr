@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class Themes
@@ -15,13 +17,13 @@ class Themes
   static const Color green = Color(0xff22CA97);
 
   static BoxDecoration decor = BoxDecoration(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(12),
       color: Colors.white,
       boxShadow: const [
         BoxShadow(
           color: Colors.black12,
-          blurRadius: 10,
-          offset: Offset(1, 1),
+          blurRadius: 5,
+          offset: Offset(0,0),
         ),
       ]
   );
@@ -46,11 +48,23 @@ class Themes
 
     useMaterial3: true,
     
-    scrollbarTheme: ScrollbarThemeData(
+    scrollbarTheme: const ScrollbarThemeData(
       thumbColor: MaterialStatePropertyAll(mainColor),
       radius: Radius.circular(10)
-      
     ),
+
+    switchTheme: SwitchThemeData(
+      thumbColor: MaterialStateProperty.all(light),
+      trackColor: MaterialStateProperty.resolveWith((states)
+      {
+        return states.contains(MaterialState.selected) ? mainColor : grey.withOpacity(0.1);
+      }),
+      overlayColor: MaterialStateProperty.all(mainColor.withOpacity(0.2)),
+      splashRadius: 16,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      trackOutlineColor: MaterialStateProperty.all(light)
+    ),
+
 
     appBarTheme: const AppBarTheme(
       elevation: 0,

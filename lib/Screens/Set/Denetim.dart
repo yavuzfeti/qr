@@ -4,6 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Components/TopBar.dart';
 import 'package:qr/Screens/ContentView.dart';
+import 'package:qr/Utils/Network.dart';
 import 'package:qr/Utils/Permissions.dart';
 
 class Denetim extends StatefulWidget {
@@ -128,23 +129,16 @@ class _DenetimState extends State<Denetim> {
             ),
           ),
           con(
-            "Arkaplanda yenilenmesine izin veriyorum",
-            "Arkaplan",
+            "",
+            "Güncelleme Gösterimi",
             Switch(
               hoverColor: Themes.mainColor,
-              value: Permissions.location,
+              value: true,
               onChanged: (v) async
               {
-                if(!await Permissions.onlyControl(Permission.location))
-                {
-                  Permissions.locationRequest();
-                }
-                else
-                {
-                  Permissions.location = !Permissions.location;
-                }
-                setState(() {
-                });
+                // kayıt et ve kaydı göster
+                await storage.write(key:"update",value:v.toString());
+                print(await storage.read(key: "update"));
               },
             ),
           ),
