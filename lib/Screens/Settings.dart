@@ -12,24 +12,24 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
 
-  Container con(String text1, String text2, dynamic trailing,dynamic route) {
+  Container con(String text1, String text2,dynamic route) {
     return Container(
       width: double.infinity,
-      height: 100,
+      height: 108,
       alignment: Alignment.center,
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      decoration: Themes.decor,
+      decoration: Themes.decorSettings,
       child: ListTile(
           title: Text(
-            text1,
-            style: TextStyle(color: Themes.text, fontSize: 12),
-          ),
-          subtitle: Text(
             text2,
             style: TextStyle(
                 color: Themes.text, fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          trailing: trailing,
+          subtitle: Text(
+            text1,
+            style: TextStyle(color: Themes.text, fontSize: 12),
+          ),
+          trailing: Icon(Icons.keyboard_arrow_right_rounded,color: Themes.mainColor,),
         onTap: ()
         {
           Navigator.push(context, MaterialPageRoute(builder: (context) => route));
@@ -40,11 +40,16 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        con("Uygulama İzin Ayarları", "Denetim Merkezi", Icon(Icons.keyboard_arrow_right_rounded,color: Themes.text,),Denetim()),
-        con("Profil Ayarları", "Hesap Kimliği Ayarları", Icon(Icons.keyboard_arrow_right_rounded,color: Themes.text,),Hesap())
-      ],
+    return Container(
+      color: Themes.light,
+      child: ListView(
+        children: [
+          con("Uygulama izin ve bilgilendirme ayarları", "Denetim Merkezi",Denetim()),
+          con("Kişisel bilgilerini güncelleme", "Hesap Kimliği Ayarları",Hesap()),
+          con("Destek Hizmetleri", "Yardım ve Destek",Hesap()),
+          con("QR PDKS uygulaması hakkında", "Uygulama Hakkında",Hesap())
+        ],
+      ),
     );
   }
 }

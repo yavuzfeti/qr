@@ -157,7 +157,7 @@ class _OptionState extends State<Option> {
             children: [
               SvgPicture.asset("lib/Assets/Images/logo.svg",width: 90,),
               AnimatedContainer(
-                curve: Curves.easeInExpo,
+                curve: Curves.easeInCubic,
                 duration: const Duration(milliseconds: 500),
                 height: bottomH ? MediaQuery.sizeOf(context).height/2 : 0,
                 decoration: const BoxDecoration(

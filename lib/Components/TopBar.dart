@@ -43,7 +43,7 @@ class _TopBarState extends State<TopBar> {
           color: Themes.back,
           height: 55,
         ),
-        if(widget.title!="home"||bottomIndex==1)
+        if(widget.title!="home"||bottomIndex!=0)
           Container(
             width: MediaQuery.sizeOf(context).width-25,
             height: 13,
@@ -59,10 +59,15 @@ class _TopBarState extends State<TopBar> {
           child: AppBar(
             elevation: 0,
             scrolledUnderElevation: 0,
-            backgroundColor: widget.title == "home" && bottomIndex != 1 ? Themes.back : Colors.white,
+            leadingWidth: 40,
+            backgroundColor: widget.title == "home" && bottomIndex == 0 ? Themes.back : Colors.white,
             centerTitle: true,
             title: widget.title == "home"
-                ? bottomIndex == 1 ? const Text("Bildirimler",style: TextStyle(color: Themes.text,fontWeight: FontWeight.bold),) : Column(
+                ? bottomIndex == 1
+                ? const Text("Bildirimler",style: TextStyle(color: Themes.text,fontWeight: FontWeight.bold),)
+                : bottomIndex == 2
+                ? const Text("Ayarlar",style: TextStyle(color: Themes.text,fontWeight: FontWeight.bold),)
+                : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(

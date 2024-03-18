@@ -11,6 +11,7 @@ import 'package:qr/Components/UpdatePage.dart';
 import 'package:qr/Screens/Home.dart';
 import 'package:qr/Screens/Notifications.dart';
 import 'package:qr/Screens/Settings.dart';
+import 'package:qr/Utils/Network.dart';
 
 class Base extends StatefulWidget {
   const Base({super.key});
@@ -22,9 +23,9 @@ class Base extends StatefulWidget {
 class _BaseState extends State<Base> {
 
   List<Widget> body = [
-    Home(),
-    Notifications(),
-    Settings(),
+    const Home(),
+    const Notifications(),
+    const Settings(),
   ];
 
   @override
@@ -39,13 +40,16 @@ class _BaseState extends State<Base> {
 
   run() async
   {
-    var status = await NewVersionPlus().getVersionStatus();
-    if (status != null && status.canUpdate)
+    if((await storage.read(key: "update")??true)!="false")
     {
-      setState(() {
-        update = true;
-        link = status.appStoreLink;
-      });
+      var status = await NewVersionPlus().getVersionStatus();
+      if (status != null && status.canUpdate)
+      {
+        setState(() {
+          update = true;
+          link = status.appStoreLink;
+        });
+      }
     }
   }
 
@@ -62,7 +66,10 @@ class _BaseState extends State<Base> {
           : Scaffold(
         backgroundColor: Themes.back,
         appBar: TopBar("home"),
-        body: body[bottomIndex],
+        body:IndexedStack(
+          index: bottomIndex,
+          children: body,
+        ),
         bottomNavigationBar: BottomBar(items: [
           GButton(
             leading: SvgPicture.asset("lib/Assets/Icons/home.svg",color: bottomIndex == 0 ? Themes.dark : Themes.grey,width: 25,height: 25,),

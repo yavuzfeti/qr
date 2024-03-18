@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class Themes
@@ -10,7 +8,7 @@ class Themes
   static const Color red  = Color(0xffEB004B);
   static const Color orange = Color(0xffff5812);
   static const Color grey = Color(0xff58585B);
-  static const Color text = dark;
+  static const Color text = Color(0xff333333);
   static const Color lightGrey = Color(0xffF3F3F4);
   static const Color transparent = Colors.transparent;
   static const Color back = Color(0xffF7F7F7);
@@ -18,30 +16,26 @@ class Themes
 
   static BoxDecoration decor = BoxDecoration(
       borderRadius: BorderRadius.circular(12),
-      color: Colors.white,
+      color: light,
       boxShadow: const [
         BoxShadow(
           color: Colors.black12,
-          blurRadius: 5,
+          blurRadius: 1,
           offset: Offset(0,0),
         ),
       ]
   );
 
-  static MaterialColor mainSwatch = MaterialColor(
-    mainColor.value,
-    const <int, Color>{
-      50: Color(0xFFE8E7FF),
-      100: Color(0xFFC6C3FF),
-      200: Color(0xFFA3A0FF),
-      300: Color(0xFF807DFF),
-      400: Color(0xFF5E5BFF),
-      500: Color(0xFF3B38FF),
-      600: Color(0xFF3835E5),
-      700: Color(0xFF2B2A99),
-      800: Color(0xFF1E1D4D),
-      900: Color(0xFF111027),
-    }
+  static BoxDecoration decorSettings = BoxDecoration(
+      borderRadius: BorderRadius.circular(8),
+      color: lightGrey,
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 2,
+          offset: Offset(0,0),
+        ),
+      ]
   );
 
   static ThemeData theme = ThemeData(
@@ -62,7 +56,7 @@ class Themes
       overlayColor: MaterialStateProperty.all(mainColor.withOpacity(0.2)),
       splashRadius: 16,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      trackOutlineColor: MaterialStateProperty.all(light)
+      trackOutlineColor: MaterialStateProperty.all(lightGrey)
     ),
 
 
@@ -116,7 +110,21 @@ class Themes
     canvasColor: light,
     cardColor: mainColor,
     primaryColor: mainColor,
-    primarySwatch: mainSwatch,
+    primarySwatch: MaterialColor(
+        mainColor.value,
+        const <int, Color>{
+          50: Color(0xFFE8E7FF),
+          100: Color(0xFFC6C3FF),
+          200: Color(0xFFA3A0FF),
+          300: Color(0xFF807DFF),
+          400: Color(0xFF5E5BFF),
+          500: Color(0xFF3B38FF),
+          600: Color(0xFF3835E5),
+          700: Color(0xFF2B2A99),
+          800: Color(0xFF1E1D4D),
+          900: Color(0xFF111027),
+        }
+    ),
     hintColor: mainColor,
     backgroundColor: light,
     disabledColor: grey,

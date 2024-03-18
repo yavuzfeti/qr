@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:new_version_plus/new_version_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Components/TopBar.dart';
@@ -22,6 +22,9 @@ class _DenetimState extends State<Denetim> {
     run();
   }
 
+  bool update = false;
+  bool updateAvaliable = false;
+
   String version = "";
 
   bool loading = true;
@@ -31,14 +34,19 @@ class _DenetimState extends State<Denetim> {
     setState(() {
       loading = true;
     });
-    var status = await PackageInfo.fromPlatform();
-    setState(() {
-      version = status.version;
-    });
+    var status = await NewVersionPlus().getVersionStatus();
+    if (status != null && status.canUpdate)
+    {
+      setState(() {
+        updateAvaliable = true;
+      });
+    }
+    update = (await storage.read(key: "update")??true)=="true" ? true : false;
     Permissions.notification = await Permissions.onlyControl(Permission.notification);
     Permissions.camera = await Permissions.onlyControl(Permission.camera);
     Permissions.location = await Permissions.onlyControl(Permission.location);
     setState(() {
+      version = status!.localVersion;
       Permissions.camera;
       Permissions.notification;
       Permissions.location;
@@ -48,6 +56,8 @@ class _DenetimState extends State<Denetim> {
 
   InkWell con(String text1, String text2, dynamic trailing, {VoidCallback? l}) {
     return InkWell(
+      splashColor: Themes.transparent,
+      highlightColor: Colors.transparent,
       onTap: ()
       {
         if(l!=null)
@@ -57,19 +67,19 @@ class _DenetimState extends State<Denetim> {
       },
       child: Container(
         width: double.infinity,
-        height: 100,
+        height: 108,
         alignment: Alignment.center,
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        decoration: Themes.decor,
+        decoration: Themes.decorSettings,
         child: ListTile(
             title: Text(
-              text1,
-              style: TextStyle(color: Themes.text, fontSize: 12),
-            ),
-            subtitle: Text(
               text2,
               style: TextStyle(
                   color: Themes.text, fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(
+              text1,
+              style: TextStyle(color: Themes.text, fontSize: 12),
             ),
             trailing: trailing,
         ),
@@ -80,14 +90,14 @@ class _DenetimState extends State<Denetim> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Themes.back,
+      backgroundColor: Themes.light,
       appBar: TopBar("Denetim Merkezi"),
       body: loading
-        ? Center(child: CircularProgressIndicator(),)
+        ? const Center(child: CircularProgressIndicator(),)
           : ListView(
         children: [
           con(
-            "Kamera erişimine izin veriyorum",
+            "Mesai giriş çıkışlarınızı kaydetmek, kamera izni almak ve QR kodunu okutmak için bu özelliği açmanızı öneririz.",
             "Kamera",
             Switch(
               hoverColor: Themes.mainColor,
@@ -108,7 +118,7 @@ class _DenetimState extends State<Denetim> {
             ),
           ),
           con(
-            "Bildirim göndermesine izin veriyorum",
+            "Şirket bildirimlerini istediğiniz yerde ve zamanda ulaştırabilmemiz için bu özelliği açık tutmanızı öneriyoruz.",
             "Bildirim",
             Switch(
               hoverColor: Themes.mainColor,
@@ -129,20 +139,21 @@ class _DenetimState extends State<Denetim> {
             ),
           ),
           con(
-            "",
+            "Güncellemelerden haberdar olmanız için onay vermenizi öneririz.",
             "Güncelleme Gösterimi",
             Switch(
               hoverColor: Themes.mainColor,
-              value: true,
+              value: update,
               onChanged: (v) async
               {
-                // kayıt et ve kaydı göster
                 await storage.write(key:"update",value:v.toString());
-                print(await storage.read(key: "update"));
+                setState(() {
+                  update=v;
+                });
               },
             ),
           ),
-          con("Mevzuat Bilgilendirmesi", "Gizlilik Politikası", null,
+          con("KVKK metnini okuma hakkınızın olduğunu bildirmek isteriz. KVKK metnini okuyarak verilerinizin nasıl işlendiği hakkında daha fazla bilgi edinebilirsiniz.", "KVKK Metni", null,
               l: ()
               {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ContentView(
@@ -162,7 +173,7 @@ Bu Gizlilik Politikası'nda düzenlenen hususlara ilişkin sorularınızı merha
                 )));
               }
           ),
-          con("Mevzuat Bilgilendirmesi", "Şartlar ve Koşullar", null,
+          con("Verilerinizin nasıl işlendiği ve korunduğu konusunda daha fazla bilgi edinmek için lütfen gizlilik politikamızı inceleyin.", "Gizlilik Politikası", null,
               l: ()
               {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ContentView(
@@ -253,7 +264,7 @@ Politika'daki Değişiklikler
                 )));
               }
           ),
-          con("Sürüm Güncelleme Derlemesi", version, null)
+          con(updateAvaliable ? "Sürüm Güncelleme Derlemesi güncel değil" : "Sürüm Güncelleme Derlemesi güncel", version, null)
         ],
       ),
     );

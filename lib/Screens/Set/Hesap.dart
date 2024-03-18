@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:qr/Components/Alert.dart';
 import 'package:qr/Components/Message.dart';
 import 'package:qr/Components/Sheet.dart';
@@ -51,10 +50,10 @@ class _HesapState extends State<Hesap> {
   Container con(String text1, String text2, Widget? oge, {dynamic fun}) {
     return Container(
       width: double.infinity,
-      height: 100,
+      height: 108,
       alignment: Alignment.center,
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      decoration: Themes.decor,
+      decoration: Themes.decorSettings,
       child: ListTile(
           title: Text(
                 text1,
@@ -82,7 +81,7 @@ class _HesapState extends State<Hesap> {
             {
               if(fun!=null){fun();}
             },
-            icon: Icon(Icons.edit_rounded),
+            icon: Icon(Icons.mode_edit_outlined,color: Themes.mainColor,),
           )),
     );
   }
@@ -91,7 +90,7 @@ class _HesapState extends State<Hesap> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Themes.lightGrey,
+      backgroundColor: Themes.light,
       appBar: TopBar("Hesap Kimliği ayarları"),
       body: loading
           ? Center(child: CircularProgressIndicator(),)
@@ -122,7 +121,7 @@ class _HesapState extends State<Hesap> {
                         });
                         Message.show("Doğrulama epostası iletildi.");
                       },
-                      child: Text("E-Posta Adresini Doğrula")
+                      child: Text("E-Posta Adresini Doğrula",style: TextStyle(fontWeight: FontWeight.bold),)
                   ),
                     fun:(){Navigator.push(
                       context,
@@ -199,33 +198,44 @@ class _HesapState extends State<Hesap> {
               ],
             ),
           ),
-          ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(double.infinity, 65),
-                backgroundColor: Themes.light,
-                foregroundColor: Themes.dark,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(0),
-              ),
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  width: 1,
+                  color: Themes.grey.withOpacity(0.2)
+                )
+              )
             ),
-            onPressed: () async
-            {
-              await Alert.show(title: "Çıkış yap",
-                  content: Text("Çıkış yapmak istediğinize emin misiniz?",
-                    style: TextStyle(color: Themes.dark),),
-                  funLabel: "Çıkış yap",
-                  fun: ()
+            child: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(double.infinity, 65),
+                  elevation: 0,
+                  backgroundColor: Themes.light,
+                  foregroundColor: Themes.dark,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+              ),
+              onPressed: () async
               {
-                storage.deleteAll();
-                Navigator.pushAndRemoveUntil(
-                  navKey.currentState!.context,
-                  MaterialPageRoute(builder: (context) => Login()),
-                      (Route<dynamic> route) => false,
-                );
-              });
-            },
-            icon: Icon(Icons.logout_rounded,color: Themes.red,),
-            label: Text("Çıkış Yap"),
+                await Alert.show(title: "Çıkış yap",
+                    content: Text("Çıkış yapmak istediğinize emin misiniz?",
+                      style: TextStyle(color: Themes.dark),),
+                    funLabel: "Çıkış yap",
+                    fun: ()
+                {
+                  storage.deleteAll();
+                  Navigator.pushAndRemoveUntil(
+                    navKey.currentState!.context,
+                    MaterialPageRoute(builder: (context) => Login()),
+                        (Route<dynamic> route) => false,
+                  );
+                });
+              },
+              icon: Icon(Icons.logout_rounded,color: Themes.red,),
+              label: Text("Çıkış Yap"),
+            ),
           ),
         ],
       ),

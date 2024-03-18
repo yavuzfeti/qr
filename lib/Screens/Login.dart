@@ -282,18 +282,57 @@ class _LoginState extends State<Login> {
               padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
               child: Text("Lütfen devam etmek için bilgilerinizi girin. Ardından 'Doğrula' butonuna tıklayın!",textAlign: TextAlign.center,style: TextStyle(color: Colors.black26,fontSize: 13),),
             ),
-            loading
-                ? const Center(child: CircularProgressIndicator(),)
-                : Padding(
-              padding: const EdgeInsets.all(25),
-              child: ElevatedButton(
-                  onPressed: isActive ? login : null,
-                  child: const Text("Doğrula")
-              ),
-            ),
           ],
         ),
-      )
+      ),
+      bottomNavigationBar: BottomAppBar(
+        height: 125,
+        color: Themes.light,
+        elevation: 0,
+        child: loading
+            ? const Center(child: CircularProgressIndicator(),)
+            : Padding(
+          padding: const EdgeInsets.all(25),
+          child: ElevatedButton(
+              onPressed: isActive ? login : null,
+              child: const Text("Doğrula")
+          ),
+        ),
+      ),
+      floatingActionButton: (userFocus.hasFocus || passFocus.hasFocus )
+          ? Container(
+        height: 40,
+        decoration: BoxDecoration(
+          color: Themes.light,
+          border: Border(
+            top:BorderSide(
+              color: Themes.grey.withOpacity(0.2),
+              width: 1,
+            ),
+          )
+        ),
+        width: MediaQuery.sizeOf(context).width-25,
+        child: FloatingActionButton(
+          backgroundColor: Themes.light,
+          elevation: 0,
+          onPressed: null,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed:()
+                {
+                  setState(() {
+                    userFocus.unfocus();
+                    passFocus.unfocus();
+                  });
+                },
+                  child: const Text("Bitti")
+              )
+            ],
+          ),
+        ),
+      ) : null,
     );
   }
 }

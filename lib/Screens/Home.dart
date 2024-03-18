@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
       if (gunler.contains(gunValue)) {
         int index = gunler.indexOf(gunValue);
         if (value["action"] == "0") {
-          renkler[index] = Themes.mainColor;
+          renkler[index] = Themes.green;
         } else if (value["action"] == "1") {
           renkler[index] = Themes.orange;
         } else {
