@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:qr/Components/Sheet.dart';
 import 'package:qr/Components/Themes.dart';
-import 'package:qr/Components/TopBar.dart';
 import 'package:qr/Utils/Network.dart';
 import 'package:qr/main.dart';
 import 'package:vibration/vibration.dart';
@@ -146,7 +145,6 @@ class _OptionState extends State<Option> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Themes.back,
-      appBar: TopBar(widget.title),
       body: Center(
         child: loading ? const CircularProgressIndicator() :
         Container(

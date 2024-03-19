@@ -48,8 +48,8 @@ void main() async
           child: child!,
         );
       },
-      localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate, GlobalWidgetsLocalizations.delegate,],
-      supportedLocales: [const Locale('tr', 'TR')],
+      localizationsDelegates: const [GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate, GlobalWidgetsLocalizations.delegate,],
+      supportedLocales: const [Locale('tr', 'TR')],
       debugShowCheckedModeBanner: kDebugMode,
       title: "QrPdks",
       theme: Themes.theme,
