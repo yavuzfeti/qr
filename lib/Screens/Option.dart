@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr/Components/QrScanner.dart';
 import 'package:qr/Components/Sheet.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Utils/Network.dart';
-import 'package:qr/Utils/Permissions.dart';
 import 'package:qr/main.dart';
 import 'package:vibration/vibration.dart';
 
@@ -26,7 +24,6 @@ class _OptionState extends State<Option> {
   {
     Future.delayed(const Duration(milliseconds: 100),(){setState((){bottomH=true;});});
     id = await storage.read(key: "id");
-    await Permissions.cameraRequest();
     await Geolocator.requestPermission();
     position = await Geolocator.getCurrentPosition();
   }
