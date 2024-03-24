@@ -1,4 +1,3 @@
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -28,8 +27,6 @@ class _HomeState extends State<Home> {
   bool loading = true;
   List<String> gunler = [];
   List<Color> renkler = [];
-
-  // google/sdk_gphone64_x86_64/emu64xa:14/UE1A.230829.036.A1/11228894:userdebug/dev-keys
 
   al() async
   {

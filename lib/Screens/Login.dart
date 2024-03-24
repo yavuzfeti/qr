@@ -70,7 +70,7 @@ class _LoginState extends State<Login> {
           {
             "username" : usernameC.text.substring(7).replaceAll(" ", "").replaceAll(")", ""),
             "password" : passwordC.text,
-            "mac_id": macId
+            "mac_id": 'test' //macId
           }
       );
       await storage.write(key: "id", value: response["response"]["id"].toString() ?? "Veri yok");

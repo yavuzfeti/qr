@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Themes
@@ -25,6 +26,14 @@ class Themes
         ),
       ]
   );
+
+  static List<BoxShadow> shadow = [
+    BoxShadow(
+      color: Colors.black12,
+      blurRadius: 1,
+      offset: Offset(0,0),
+    ),
+  ];
 
   static BoxDecoration decorSettings = BoxDecoration(
       borderRadius: BorderRadius.circular(8),

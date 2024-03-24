@@ -19,30 +19,13 @@ class Sheet
           ),
         ),
         width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: 40,
-              height: 8,
-              margin: const EdgeInsets.only(top: 25),
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(5)
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(50),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: items,
-                ),
-              ),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(50),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: items,
+          ),
         ),
       ),
     );
