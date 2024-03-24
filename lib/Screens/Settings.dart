@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Screens/Set/Denetim.dart';
+import 'package:qr/Screens/Set/Help.dart';
 import 'package:qr/Screens/Set/Hesap.dart';
 
 class Settings extends StatefulWidget {
@@ -46,7 +47,7 @@ class _SettingsState extends State<Settings> {
         children: [
           con("Uygulama izin ve bilgilendirme ayarları", "Denetim Merkezi",Denetim()),
           con("Kişisel bilgilerini güncelleme", "Hesap Kimliği Ayarları",Hesap()),
-          con("Destek Hizmetleri", "Yardım ve Destek",Hesap()),
+          con("Destek Hizmetleri", "Yardım ve Destek",Help()),
           con("QR PDKS uygulaması hakkında", "Uygulama Hakkında",Hesap())
         ],
       ),
