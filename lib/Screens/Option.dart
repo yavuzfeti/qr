@@ -76,12 +76,12 @@ class _OptionState extends State<Option> {
 
   cikisqr() async
   {
-    qr = (await Navigator.push(
-      navKey.currentState!.context,
-      MaterialPageRoute(builder: (context) => const QrScanner()),
-    )).substring(7);
       try
       {
+        qr = (await Navigator.push(
+          navKey.currentState!.context,
+          MaterialPageRoute(builder: (context) => const QrScanner()),
+        )).substring(7);
         response = await Network("locations-user?user_id=$id&company_token=$qr&key=$key&coordinates=${position.latitude},${position.longitude}").get();
         await Network("logs?user_id=$id&token=$qr&key=$key").post("");
         success();
@@ -94,12 +94,12 @@ class _OptionState extends State<Option> {
 
   girisqr() async
   {
-      qr = (await Navigator.push(
-        navKey.currentState!.context,
-        MaterialPageRoute(builder: (context) => const QrScanner()),
-      )).substring(7);
       try
       {
+        qr = (await Navigator.push(
+          navKey.currentState!.context,
+          MaterialPageRoute(builder: (context) => const QrScanner()),
+        )).substring(7);
         await Network("locations-user?user_id=$id&company_token=$qr&key=$key&coordinates=${position.latitude},${position.longitude}").get();
         await Network("logs?user_id=$id&token=$qr&key=$key").post("");
         success();
@@ -144,7 +144,7 @@ class _OptionState extends State<Option> {
         backgroundColor: Themes.transparent,
         elevation: 0,
         highlightElevation: 0,
-        child: Icon(Icons.close,color: Themes.dark,),
+        child: SvgPicture.asset('lib/Assets/Icons/close.svg',color: Themes.dark),
         onPressed: (){Navigator.pop(navKey.currentState!.context);},
       ),
       body: Center(

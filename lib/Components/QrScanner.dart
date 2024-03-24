@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/main.dart';
@@ -52,7 +53,7 @@ class _QrScannerState extends State<QrScanner> {
               padding: EdgeInsets.symmetric(horizontal: 35),
               child: Text('QR KODU yukarıdaki alan içerisinde kalacak şekilde tarat.',style: TextStyle(color: Themes.light,fontSize: 14),textAlign: TextAlign.center,),
             ),
-            IconButton(onPressed: (){Navigator.pop(navKey.currentState!.context,'00000000');}, icon: const Icon(Icons.close_rounded,color: Themes.light,))
+            IconButton(onPressed: (){Navigator.pop(navKey.currentState!.context);}, icon:SvgPicture.asset('lib/Assets/Icons/close.svg',color: Themes.light,))
           ],
         ),
       ),
