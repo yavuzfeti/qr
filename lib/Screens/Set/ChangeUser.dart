@@ -1,7 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qr/Components/Message.dart';
+import 'package:qr/Components/Navigation.dart';
 import 'package:qr/Components/Themes.dart';
 import 'package:qr/Components/TopBar.dart';
+import 'package:qr/Utils/Network.dart';
+import 'package:qr/main.dart';
 
 class ChangeUser extends StatefulWidget {
 
@@ -29,11 +32,34 @@ class _ChangeUserState extends State<ChangeUser> {
   TextEditingController sifre = TextEditingController();
   TextEditingController sifre2 = TextEditingController();
 
+  double pswValue = 0;
+
   List<Widget> items=[];
 
   bool visible = true;
 
-  edittext(TextEditingController controller,String uptext,{String? subtext,bool? psw}) =>
+  bool ok = false;
+
+  changePassword(StateSetter setter) async
+  {
+    if(sifre.text.isNotEmpty&&sifre2.text.isNotEmpty&&sifre.text == sifre2.text)
+    {
+      setState(() {
+        ok=true;
+      });
+    }
+    else
+    {
+      setState(() {
+        ok=false;
+      });
+    }
+    setter(() {
+      pswValue=(sifre.text.length<sifre2.text.length ? sifre2.text.length : sifre.text.length)*0.17;
+    });
+  }
+
+  edittext(TextEditingController controller,String uptext,{String? subtext,bool? psw,VoidCallback? fun}) =>
       StatefulBuilder(
         builder: (context,setState) {
           return Column(
@@ -46,6 +72,14 @@ class _ChangeUserState extends State<ChangeUser> {
               ),
               const SizedBox(height: 10),
               TextField(
+                onChanged: (v)
+                {
+                  if(fun!=null)
+                  {
+                    fun();
+                  }
+                },
+                keyboardType: psw!=null ? TextInputType.number : null,
                 obscureText: psw!=null ? visible : false,
                   controller: controller,
                   decoration: InputDecoration(
@@ -91,8 +125,37 @@ class _ChangeUserState extends State<ChangeUser> {
   {
     if(widget.item=="password")
     {
-      items.add(edittext(sifre,'Yeni şifre',psw: true));
-      items.add(edittext(sifre2,'Yeni şifre tekrar',psw: true,subtext: 'Şifre gücü'));
+      items.add(
+          StatefulBuilder(
+              builder: (context,setState) {
+            return Column(
+              children: [
+                edittext(sifre,'Yeni şifre',psw: true,fun: (){changePassword(setState);}),
+                edittext(sifre2,'Yeni şifre tekrar',psw: true,subtext: 'Şifre gücü',fun: (){changePassword(setState);}),
+                Container(
+                  height: 125,
+                  padding: const EdgeInsets.only(left: 15,top: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      LinearProgressIndicator(
+                        backgroundColor: Themes.lightGrey,
+                        borderRadius: BorderRadius.circular(10),
+                        minHeight: 10,
+                        value: pswValue,
+                        color: pswValue>1 ? Themes.green : Themes.mainColor,
+                      ),
+                      const Text("Şifre şunlar içermelidir",style: TextStyle(fontWeight: FontWeight.bold),),
+                      const Text("x En az altı rakam (0-9)",style: TextStyle(fontWeight: FontWeight.bold),),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          }
+        )
+      );
       setState(() {
         title = "Şifre";
       });
@@ -125,10 +188,50 @@ class _ChangeUserState extends State<ChangeUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopBar(title),
+      floatingActionButton: ok ? Container(
+        height: 40,
+        decoration: BoxDecoration(
+            color: Themes.light,
+            border: Border(
+              top:BorderSide(
+                color: Themes.grey.withOpacity(0.2),
+                width: 1,
+              ),
+            )
+        ),
+        width: MediaQuery.sizeOf(context).width-25,
+        child: FloatingActionButton(
+          backgroundColor: Themes.light,
+          elevation: 0,
+          onPressed: null,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                  onPressed:() async
+                  {
+                    try {
+                      String mail = await storage.read(key: "email") ?? "";
+                      dynamic response = await Network("auth/password-change?email=$mail&key=$key").get();
+                      await Network("auth/password-change?token=${response["token"]}&newPassword=${sifre.text}").post({});
+                      Navigation().back();
+                    } catch (e) {
+                      Message.show("Hata oluştu her şifre değiştirme işlemi arasında en az 1 saat olmalıdır.");
+                      throw Exception(e);
+                    }
+                  },
+                  child: const Text("Bitti")
+              )
+            ],
+          ),
+        ),
+      ) : null,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: items,
           ),
         ),
@@ -136,36 +239,3 @@ class _ChangeUserState extends State<ChangeUser> {
     );
   }
 }
-
-
-// {
-//   TextEditingController sifreC = TextEditingController();
-//   await Alert.show(
-//     title: "Yeni şifre",
-//       content: TextField(
-//         controller: sifreC,
-//         keyboardType: TextInputType.number,
-//         decoration: InputDecoration(
-//           hintText: "Yeni şifrenizi giriniz",
-//           hintStyle: TextStyle(color: Themes.grey),
-//         ),
-//         inputFormatters:
-//         [
-//           LengthLimitingTextInputFormatter(6),
-//           FilteringTextInputFormatter.digitsOnly,
-//         ],
-//       ),
-//     funLabel: "Kaydet",
-//     fun: () async
-//     {
-//       try {
-//         String mail = await storage.read(key: "email") ?? "";
-//         dynamic response = await Network("auth/password-change?email=$mail&key=$key").get();
-//         await Network("auth/password-change?token=${response["token"]}&newPassword=${sifreC.text}").post({});
-//       } catch (e) {
-//         Message.show("Hata oluştu her şifre değiştirme işlemi arasında en az 1 saat olmalıdır.");
-//         throw Exception(e);
-//       }
-//     }
-//   );
-// }),

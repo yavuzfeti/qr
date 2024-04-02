@@ -48,7 +48,7 @@ class _SettingsState extends State<Settings> {
           con("Uygulama izin ve bilgilendirme ayarları", "Denetim Merkezi",Denetim()),
           con("Kişisel bilgilerini güncelleme", "Hesap Kimliği Ayarları",Hesap()),
           con("Destek Hizmetleri", "Yardım ve Destek",Help()),
-          con("QR PDKS uygulaması hakkında", "Uygulama Hakkında",Hesap())
+          con("QR PDKS uygulaması hakkında", "Uygulama Hakkında",Help())
         ],
       ),
     );

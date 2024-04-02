@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:qr/Components/Themes.dart';
@@ -117,37 +119,44 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
-    Expanded ex(String text)
+    Text ex(String text)
     {
-      return Expanded(
-        flex: 1,
-          child: Text(
-            text,
-            style: TextStyle(
-              color: Themes.grey,
-              fontSize: 10,
-            ),
-            textAlign: TextAlign.start,
-          )
+      return Text(
+        text,
+        style: TextStyle(
+          color: Themes.grey,
+          fontSize: 10,
+        ),
+        textAlign: TextAlign.start,
       );
     }
 
-    Expanded ex2(String text,Color color)
+    Column ex2(String text,Color color,bool izin)
     {
-      return Expanded(
-          flex: 1,
-          child: Padding(
-            padding: EdgeInsets.only(left: 4),
-            child: Text(
-              text,
-              style: TextStyle(
-                color: color,
-                fontSize: 12,
-                fontWeight: FontWeight.bold
-              ),
-              textAlign: TextAlign.start
+      String bugun = (DateFormat("dd").format((DateTime.parse(DateTime.now().toString())))).toString();
+      bugun = bugun.startsWith("0") ? bugun.replaceAll("0","") : bugun;
+      return Column(
+        children: [
+          Container(
+            width: 20,
+            height: 20,
+            decoration: BoxDecoration(
+                color: text == bugun ? Themes.mainColor : Themes.transparent,
+                borderRadius: BorderRadius.circular(50)
             ),
-          )
+            alignment: Alignment.center,
+            child: Text(
+                text,
+                style: TextStyle(
+                    color: text == bugun ? Themes.light : color,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold
+                ),
+                textAlign: TextAlign.center
+            ),
+          ),
+          CircleAvatar(radius: 3,backgroundColor: izin ? Themes.mainColor : Themes.transparent,)
+        ],
       );
     }
 
@@ -194,9 +203,10 @@ class _HomeState extends State<Home> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Bugün ${DateFormat("dd.MM.yyyy").format((DateTime.now()))}",style: TextStyle(fontSize: 15),),
-                          SvgPicture.asset("lib/Assets/Images/cizgi.svg",width: 125,),
-                          SizedBox(height: 10,),
-                          SvgPicture.asset("lib/Assets/Images/segment.svg",width: 100,),
+                          SizedBox(height: 15,),
+                          SvgPicture.asset("lib/Assets/Images/cizgi.svg",width: 150,),
+                          SizedBox(height: 15,),
+                          SvgPicture.asset("lib/Assets/Images/segment.svg",width: 115,),
                         ],
                       ),
                       SvgPicture.asset("lib/Assets/Images/person.svg"),
@@ -216,11 +226,12 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 7,horizontal: 3),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             ex("PZT"),
                             ex("SAL"),
-                            ex("PER"),
                             ex("ÇRŞ"),
+                            ex("PER"),
                             ex("CUM"),
                             ex("CMT"),
                             ex("PAZ"),
@@ -230,14 +241,15 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 7,horizontal: 3),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            ex2(gunler[0],renkler[0]),
-                            ex2(gunler[1],renkler[1]),
-                            ex2(gunler[2],renkler[2]),
-                            ex2(gunler[3],renkler[3]),
-                            ex2(gunler[4],renkler[4]),
-                            ex2(gunler[5],renkler[5]),
-                            ex2(gunler[6],Themes.dark),
+                            ex2(gunler[0],renkler[0],false),
+                            ex2(gunler[1],renkler[1],false),
+                            ex2(gunler[2],renkler[2],false),
+                            ex2(gunler[3],renkler[3],false),
+                            ex2(gunler[4],renkler[4],false),
+                            ex2(gunler[5],Themes.dark,true),
+                            ex2(gunler[6],Themes.dark,true),
                           ],
                         ),
                       ),
@@ -248,7 +260,13 @@ class _HomeState extends State<Home> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 8),
-                        child: Text("Mesai Saatleri",style: TextStyle(color: Colors.black12,fontWeight: FontWeight.bold,fontSize: 13),),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Mesai Saatleri",style: TextStyle(color: Colors.black12,fontWeight: FontWeight.bold,fontSize: 13),),
+                            SvgPicture.asset("lib/Assets/Images/segment.svg",width: 95,),
+                          ],
+                        ),
                       )
                     ],
                   ),

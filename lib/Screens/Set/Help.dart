@@ -56,6 +56,7 @@ class _HelpState extends State<Help> {
         boxShadow: Themes.shadow
       ),
       child: ListTile(
+        splashColor: Themes.transparent,
         title: Text(
           text,
           style: TextStyle(
