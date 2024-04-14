@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -52,8 +55,17 @@ class _LoginState extends State<Login> {
   al() async
   {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    macId = androidInfo.fingerprint;
+    if(Platform.isIOS)
+    {
+      IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
+      macId = iosDeviceInfo.identifierForVendor.toString();
+      // 748194B2-4E97-42F4-B0FD-28F6AF73A2EA
+    }
+    else
+    {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      macId = androidInfo.fingerprint.toString();
+    }
   }
 
   dynamic response;
@@ -114,7 +126,7 @@ class _LoginState extends State<Login> {
         loading = false;
       });
       Message.show("Bir hata oluştu");
-      rethrow;
+      throw Exception(e);
     }
   }
 
