@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -59,7 +57,6 @@ class _LoginState extends State<Login> {
     {
       IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
       macId = iosDeviceInfo.identifierForVendor.toString();
-      // 748194B2-4E97-42F4-B0FD-28F6AF73A2EA
     }
     else
     {
