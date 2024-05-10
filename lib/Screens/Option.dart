@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:qr/Components/Message.dart';
 import 'package:qr/Components/QrScanner.dart';
 import 'package:qr/Components/Sheet.dart';
 import 'package:qr/Components/Themes.dart';
@@ -11,8 +12,8 @@ import 'package:vibration/vibration.dart';
 
 class Option extends StatefulWidget {
 
-  String title;
-  Option({super.key, required this.title});
+  final String title;
+  const Option({super.key, required this.title});
 
   @override
   State<Option> createState() => _OptionState();
@@ -22,7 +23,7 @@ class _OptionState extends State<Option> {
 
   okut() async
   {
-    Future.delayed(const Duration(milliseconds: 100),(){setState((){bottomH=true;});});
+    setState((){bottomH=true;});
     id = await storage.read(key: "id");
     await Geolocator.requestPermission();
     position = await Geolocator.getCurrentPosition();
@@ -42,8 +43,9 @@ class _OptionState extends State<Option> {
   dynamic position;
   bool loading = false;
 
-  success() async
+  success(dynamic s) async
   {
+    await Message.show(s.toString(),d: 5);
     Vibration.vibrate(duration: 500);
     await Sheet.show(
       [
@@ -58,8 +60,9 @@ class _OptionState extends State<Option> {
     });
   }
 
-  err() async
+  err(dynamic e) async
   {
+    await Message.show(e.toString(),d: 5);
     Vibration.vibrate(duration: 1000);
     await Sheet.show(
         [
@@ -73,8 +76,30 @@ class _OptionState extends State<Option> {
       loading = false;
     });
   }
+  
+  save() async
+  {
+    dynamic r = await Network("logs?user_id=$id&token=$qr&key=$key").post("");
+    if (r["status"].toString()!="200")
+    {
+      throw Exception(r.toString());
+    }
+  }
+  
+  control(String t) async
+  {
+    dynamic r = await Network("locations-user?user_id=$id&company_token=$t&key=$key&coordinates=${position.latitude},${position.longitude}").get();
+    if (r["status"].toString()=="200")
+    {
+      return response;
+    }
+    else
+    {
+      throw Exception(r.toString());
+    }
+  }
 
-  cikisqr() async
+  qrProcess() async
   {
       try
       {
@@ -82,56 +107,26 @@ class _OptionState extends State<Option> {
           navKey.currentState!.context,
           MaterialPageRoute(builder: (context) => const QrScanner()),
         )).substring(7);
-        response = await Network("locations-user?user_id=$id&company_token=$qr&key=$key&coordinates=${position.latitude},${position.longitude}").get();
-        await Network("logs?user_id=$id&token=$qr&key=$key").post("");
-        success();
+        response = control(qr);
+        await save();
+        success(response);
       }
       catch (e)
       {
-        err();
+        err(e);
       }
   }
 
-  girisqr() async
-  {
-      try
-      {
-        qr = (await Navigator.push(
-          navKey.currentState!.context,
-          MaterialPageRoute(builder: (context) => const QrScanner()),
-        )).substring(7);
-        await Network("locations-user?user_id=$id&company_token=$qr&key=$key&coordinates=${position.latitude},${position.longitude}").get();
-        await Network("logs?user_id=$id&token=$qr&key=$key").post("");
-        success();
-      }
-      catch (e)
-      {
-        err();
-      }
-  }
-
-  cikiskonum() async
+  locationProcess() async
   {
       try {
         String? token = await storage.read(key: "current_team_id");
-        await Network("locations-user?user_id=$id&company_token=$token&key=$key&coordinates=${position.latitude},${position.longitude}").get();
-        await Network("logs?user_id=$id&token=$token&key=$key").post("");
-        success();
+        response = control(token??"");
+        await save();
+        success(response);
       }catch (e)
       {
-        err();
-      }
-  }
-
-  giriskonum() async
-  {
-      try {
-        String? token = await storage.read(key: "current_team_id");
-        await Network("locations-user?user_id=$id&company_token=$token&key=$key&coordinates=${position.latitude},${position.longitude}").get();
-        await Network("logs?user_id=$id&token=$token&key=$key").post("");
-        success();
-      }catch (e) {
-        err();
+        err(e);
       }
   }
 
@@ -191,14 +186,14 @@ class _OptionState extends State<Option> {
                               setState(() {
                                 loading = true;
                               });
-                              giriskonum();
+                              locationProcess();
                             }
                             else if(widget.title == "QR Okutmalı")
                             {
                               setState(() {
                                 loading = true;
                               });
-                              girisqr();
+                              qrProcess();
                             }
                           },
                           child: const Text("Giriş Yap"),
@@ -215,14 +210,14 @@ class _OptionState extends State<Option> {
                               setState(() {
                                 loading = true;
                               });
-                              cikiskonum();
+                              locationProcess();
                             }
                             else if(widget.title == "QR Okutmalı")
                             {
                               setState(() {
                                 loading = true;
                               });
-                              cikisqr();
+                              qrProcess();
                             }
                           },
                           child: const Text("Çıkış Yap"),

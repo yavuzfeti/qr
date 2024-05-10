@@ -4,12 +4,12 @@ import 'package:qr/main.dart';
 
 class Message
 {
-  static show(String mesaj,{IconData? icon}) async
+  static show(String mesaj,{IconData? icon,int? d}) async
   {
     ScaffoldMessenger.of(navKey.currentState!.context).showSnackBar(
       SnackBar(
         elevation: 5,
-        duration: const Duration(seconds: 2),
+        duration: Duration(seconds: d??2),
         backgroundColor: Themes.mainColor,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
