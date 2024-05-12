@@ -23,10 +23,11 @@ class _OptionState extends State<Option> {
 
   okut() async
   {
-    setState((){bottomH=true;});
+    Message.show("Konumunuz kontrol ediliyor...");
     id = await storage.read(key: "id");
     await Geolocator.requestPermission();
     position = await Geolocator.getCurrentPosition();
+    setState((){bottomH=true;});
   }
 
   @override
@@ -45,13 +46,13 @@ class _OptionState extends State<Option> {
 
   success(dynamic s) async
   {
-    await Message.show(s.toString(),d: 5);
     Vibration.vibrate(duration: 500);
     await Sheet.show(
       [
         const Text("İŞLEM BAŞARILI",style: TextStyle(color: Themes.dark,fontSize: 17,fontWeight: FontWeight.bold),),
         SvgPicture.asset("lib/Assets/Images/succes.svg"),
         Text("İşleminiz başarıyla gönderilmiştir.\nİşlem tarihiniz ${dateToDartTrans(DateTime.now())}",style: const TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
+        Text(s.toString(),style: const TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
         ElevatedButton(onPressed: (){Navigator.pop(navKey.currentState!.context);}, child: const Text("Ana Sayfa"))
       ]
     );
@@ -62,13 +63,13 @@ class _OptionState extends State<Option> {
 
   err(dynamic e) async
   {
-    await Message.show(e.toString(),d: 5);
     Vibration.vibrate(duration: 1000);
     await Sheet.show(
         [
           const Text("İŞLEM BAŞARISIZ",style: TextStyle(color: Themes.dark,fontSize: 17,fontWeight: FontWeight.bold),),
           SvgPicture.asset("lib/Assets/Images/err.svg",width: 75,),
           const Text("Cihaz belirlenen konumun dışındadır!\nLütfen QR kod ekranı deneyin",style: TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
+          Text(e.toString(),style: const TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
           ElevatedButton(onPressed: (){Navigator.pop(navKey.currentState!.context);}, child: const Text("Başla"))
         ]
     );
@@ -77,9 +78,9 @@ class _OptionState extends State<Option> {
     });
   }
   
-  save() async
+  save(String? token) async
   {
-    dynamic r = await Network("logs?user_id=$id&token=$qr&key=$key").post("");
+    dynamic r = await Network("logs?user_id=$id&token=$token&key=$key").post("");
     if (r["status"].toString()!="200")
     {
       throw Exception(r.toString());
@@ -91,7 +92,7 @@ class _OptionState extends State<Option> {
     dynamic r = await Network("locations-user?user_id=$id&company_token=$t&key=$key&coordinates=${position.latitude},${position.longitude}").get();
     if (r["status"].toString()=="200")
     {
-      return response;
+      return r;
     }
     else
     {
@@ -107,8 +108,8 @@ class _OptionState extends State<Option> {
           navKey.currentState!.context,
           MaterialPageRoute(builder: (context) => const QrScanner()),
         )).substring(7);
-        response = control(qr);
-        await save();
+        response = await control(qr);
+        await save(qr);
         success(response);
       }
       catch (e)
@@ -121,8 +122,8 @@ class _OptionState extends State<Option> {
   {
       try {
         String? token = await storage.read(key: "current_team_id");
-        response = control(token??"");
-        await save();
+        response = await control(token??"");
+        await save(token);
         success(response);
       }catch (e)
       {

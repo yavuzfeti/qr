@@ -6,8 +6,8 @@ class Message
 {
   static show(String mesaj,{IconData? icon,int? d}) async
   {
-    ScaffoldMessenger.of(navKey.currentState!.context).showSnackBar(
-      SnackBar(
+    await ScaffoldMessenger.of(navKey.currentState!.context).showSnackBar(
+      await SnackBar(
         elevation: 5,
         duration: Duration(seconds: d??2),
         backgroundColor: Themes.mainColor,
