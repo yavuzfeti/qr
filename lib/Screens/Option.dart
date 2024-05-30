@@ -78,9 +78,9 @@ class _OptionState extends State<Option> {
     });
   }
   
-  save(String? token) async
+  save(String? token,int action) async
   {
-    dynamic r = await Network("logs?user_id=$id&token=$token&key=$key").post("");
+    dynamic r = await Network("logs?user_id=$id&token=$token&key=$key&action=$action").post("");
     if (r["status"].toString()!="200")
     {
       throw Exception(r.toString());
@@ -100,7 +100,7 @@ class _OptionState extends State<Option> {
     }
   }
 
-  qrProcess() async
+  qrProcess(int action) async
   {
       try
       {
@@ -109,7 +109,7 @@ class _OptionState extends State<Option> {
           MaterialPageRoute(builder: (context) => const QrScanner()),
         )).substring(7);
         response = await control(qr);
-        await save(qr);
+        await save(qr,action);
         success(response);
       }
       catch (e)
@@ -118,12 +118,12 @@ class _OptionState extends State<Option> {
       }
   }
 
-  locationProcess() async
+  locationProcess(int action) async
   {
       try {
         String? token = await storage.read(key: "current_team_id");
         response = await control(token??"");
-        await save(token);
+        await save(token,action);
         success(response);
       }catch (e)
       {
@@ -187,14 +187,14 @@ class _OptionState extends State<Option> {
                               setState(() {
                                 loading = true;
                               });
-                              locationProcess();
+                              locationProcess(1);
                             }
                             else if(widget.title == "QR Okutmalı")
                             {
                               setState(() {
                                 loading = true;
                               });
-                              qrProcess();
+                              qrProcess(1);
                             }
                           },
                           child: const Text("Giriş Yap"),
@@ -211,14 +211,14 @@ class _OptionState extends State<Option> {
                               setState(() {
                                 loading = true;
                               });
-                              locationProcess();
+                              locationProcess(0);
                             }
                             else if(widget.title == "QR Okutmalı")
                             {
                               setState(() {
                                 loading = true;
                               });
-                              qrProcess();
+                              qrProcess(0);
                             }
                           },
                           child: const Text("Çıkış Yap"),

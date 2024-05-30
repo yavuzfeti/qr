@@ -27,7 +27,7 @@ class Themes
   );
 
   static List<BoxShadow> shadow = [
-    BoxShadow(
+    const BoxShadow(
       color: Colors.black12,
       blurRadius: 1,
       offset: Offset(0,0),
@@ -51,20 +51,20 @@ class Themes
     useMaterial3: true,
     
     scrollbarTheme: const ScrollbarThemeData(
-      thumbColor: MaterialStatePropertyAll(mainColor),
+      thumbColor: WidgetStatePropertyAll(mainColor),
       radius: Radius.circular(10)
     ),
 
     switchTheme: SwitchThemeData(
-      thumbColor: MaterialStateProperty.all(light),
-      trackColor: MaterialStateProperty.resolveWith((states)
+      thumbColor: WidgetStateProperty.all(light),
+      trackColor: WidgetStateProperty.resolveWith((states)
       {
-        return states.contains(MaterialState.selected) ? mainColor : grey.withOpacity(0.1);
+        return states.contains(WidgetState.selected) ? mainColor : grey.withOpacity(0.1);
       }),
-      overlayColor: MaterialStateProperty.all(mainColor.withOpacity(0.2)),
+      overlayColor: WidgetStateProperty.all(mainColor.withOpacity(0.2)),
       splashRadius: 16,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      trackOutlineColor: MaterialStateProperty.all(lightGrey)
+      trackOutlineColor: WidgetStateProperty.all(lightGrey)
     ),
 
 
@@ -80,17 +80,17 @@ class Themes
     ),
 
     textTheme: const TextTheme(
-      bodyText1: TextStyle(color: text),
-      bodyText2: TextStyle(color: text),
-      headline1: TextStyle(color: text,),
-      headline2: TextStyle(color: text,),
-      headline3: TextStyle(color: text,),
-      headline4: TextStyle(color: text,),
-      headline5: TextStyle(color: text,),
-      headline6: TextStyle(color: text,),
-      caption: TextStyle(color: text,),
-      subtitle1: TextStyle(color: text,),
-      subtitle2: TextStyle(color: text,),
+      bodyLarge: TextStyle(color: text),
+      bodyMedium: TextStyle(color: text),
+      displayLarge: TextStyle(color: text,),
+      displayMedium: TextStyle(color: text,),
+      displaySmall: TextStyle(color: text,),
+      headlineMedium: TextStyle(color: text,),
+      headlineSmall: TextStyle(color: text,),
+      titleLarge: TextStyle(color: text,),
+      bodySmall: TextStyle(color: text,),
+      titleMedium: TextStyle(color: text,),
+      titleSmall: TextStyle(color: text,),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -107,36 +107,12 @@ class Themes
         foregroundColor: mainColor,
       ),
     ),
-
-    colorScheme: const ColorScheme.light(
-      primary: mainColor,
-      onPrimary: Colors.white,
-      secondary: mainColor,
-      onSecondary: Colors.black,
-    ),
     splashColor: mainColor,
     canvasColor: light,
     cardColor: mainColor,
     primaryColor: mainColor,
-    primarySwatch: MaterialColor(
-        mainColor.value,
-        const <int, Color>{
-          50: Color(0xFFE8E7FF),
-          100: Color(0xFFC6C3FF),
-          200: Color(0xFFA3A0FF),
-          300: Color(0xFF807DFF),
-          400: Color(0xFF5E5BFF),
-          500: Color(0xFF3B38FF),
-          600: Color(0xFF3835E5),
-          700: Color(0xFF2B2A99),
-          800: Color(0xFF1E1D4D),
-          900: Color(0xFF111027),
-        }
-    ),
     hintColor: mainColor,
-    backgroundColor: light,
     disabledColor: grey,
-    errorColor: red,
     scaffoldBackgroundColor: light,
 
     fontFamily: "Inter",
@@ -147,6 +123,11 @@ class Themes
           TargetPlatform.android: CupertinoPageTransitionsBuilder(),
           TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
         }
-    ),
+    ), colorScheme: const ColorScheme.light(
+      primary: mainColor,
+      onPrimary: Colors.white,
+      secondary: mainColor,
+      onSecondary: Colors.black,
+    ).copyWith(error: red,surface: light),
   );
 }
