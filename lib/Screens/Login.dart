@@ -87,6 +87,9 @@ class _LoginState extends State<Login> {
       await storage.write(key: "phone_code", value: response["response"]["phone_code"].toString() ?? "Veri yok");
       await storage.write(key: "phone", value: response["response"]["phone"].toString() ?? "Veri yok");
       await storage.write(key: "company", value: response["response"]["company"].toString() ?? "Veri yok");
+
+      await storage.write(key: "company_token", value: response["response"]["company_token"].toString() ?? "Veri yok");
+
       await storage.write(key: "branch", value: response["response"]["branch"].toString() ?? "Veri yok");
       await storage.write(key: "work_plan", value: response["response"]["work_plan"].toString() ?? "Veri yok");
       await storage.write(key: "gender", value: response["response"]["gender"].toString() ?? "Veri yok");
@@ -110,6 +113,8 @@ class _LoginState extends State<Login> {
       await NotificationBackground.add(response["response"]["id"].toString());
       await NotificationBackground.add(response["response"]["current_team_id"].toString());
       await NotificationBackground.add(response["response"]["company"].toString());
+
+      print(response);
 
       Navigator.pushAndRemoveUntil(
         navKey.currentState!.context,

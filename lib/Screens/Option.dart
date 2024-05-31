@@ -121,7 +121,7 @@ class _OptionState extends State<Option> {
   locationProcess(int action) async
   {
       try {
-        String? token = await storage.read(key: "current_team_id");
+        String? token = await storage.read(key: "company_token");
         response = await control(token??"");
         await save(token,action);
         success(response);
