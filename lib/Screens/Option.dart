@@ -52,7 +52,7 @@ class _OptionState extends State<Option> {
         const Text("İŞLEM BAŞARILI",style: TextStyle(color: Themes.dark,fontSize: 17,fontWeight: FontWeight.bold),),
         SvgPicture.asset("lib/Assets/Images/succes.svg"),
         Text("İşleminiz başarıyla gönderilmiştir.\nİşlem tarihiniz ${dateToDartTrans(DateTime.now())}",style: const TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
-        Text(s.toString(),style: const TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
+        //Text(s.toString(),style: const TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
         ElevatedButton(onPressed: (){Navigator.pop(navKey.currentState!.context);}, child: const Text("Ana Sayfa"))
       ]
     );
@@ -69,7 +69,7 @@ class _OptionState extends State<Option> {
           const Text("İŞLEM BAŞARISIZ",style: TextStyle(color: Themes.dark,fontSize: 17,fontWeight: FontWeight.bold),),
           SvgPicture.asset("lib/Assets/Images/err.svg",width: 75,),
           const Text("Cihaz belirlenen konumun dışındadır!\nLütfen QR kod ekranı deneyin",style: TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
-          Text(e.toString(),style: const TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
+          //Text(e.toString(),style: const TextStyle(color: Themes.dark,fontSize: 12),textAlign: TextAlign.center,),
           ElevatedButton(onPressed: (){Navigator.pop(navKey.currentState!.context);}, child: const Text("Başla"))
         ]
     );

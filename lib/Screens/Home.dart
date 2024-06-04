@@ -52,9 +52,9 @@ class _HomeState extends State<Home> {
 
       if (gunler.contains(gunValue)) {
         int index = gunler.indexOf(gunValue);
-        if (value["action"] == "0") {
+        if (value["action"] == "1") {
           renkler[index] = Themes.green;
-        } else if (value["action"] == "1") {
+        } else if (value["action"] == "0") {
           renkler[index] = Themes.orange;
         } else {
           renkler[index] = Themes.red;
@@ -70,7 +70,7 @@ class _HomeState extends State<Home> {
   {
     return Container(
       margin: EdgeInsets.fromLTRB(15, 15, resim=="Standing" ? 15 : 0, 15),
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       decoration: Themes.decor,
       width: 300,
       child: InkWell(
@@ -88,8 +88,8 @@ class _HomeState extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title,style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
-                    Text("Mesai Hareketi İşle",style: TextStyle(fontSize: 14),),
+                    Text(title,style: const TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
+                    const Text("Mesai Hareketi İşle",style: TextStyle(fontSize: 14),),
                   ],
                 ),
                 Container(
@@ -99,7 +99,7 @@ class _HomeState extends State<Home> {
                     borderRadius: BorderRadius.circular(50),
                     color: Themes.mainColor
                   ),
-                  child: Center(child: Text("Başla",style: TextStyle(color: Themes.light),)),
+                  child: const Center(child: Text("Başla",style: TextStyle(color: Themes.light),)),
                 ),
               ],
             ),
@@ -123,7 +123,7 @@ class _HomeState extends State<Home> {
     {
       return Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           color: Themes.grey,
           fontSize: 10,
         ),
@@ -174,24 +174,24 @@ class _HomeState extends State<Home> {
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("İŞLEM GEÇMİŞİ",style: TextStyle(color: Themes.grey),),
+                    const Text("İŞLEM GEÇMİŞİ",style: TextStyle(color: Themes.grey),),
                     TextButton(
                         onPressed: ()
                         {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ProcessHistory()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ProcessHistory()));
                         },
-                        child: Text("TÜMÜNÜ GÖR",style: TextStyle(color: Themes.grey),)
+                        child: const Text("TÜMÜNÜ GÖR",style: TextStyle(color: Themes.grey),)
                     ),
                   ],
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
                   decoration: Themes.decor,
                   width: double.infinity,
                   child: Row(
@@ -202,10 +202,10 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Bugün ${DateFormat("dd.MM.yyyy").format((DateTime.now()))}",style: TextStyle(fontSize: 15),),
-                          SizedBox(height: 15,),
+                          Text("Bugün ${DateFormat("dd.MM.yyyy").format((DateTime.now()))}",style: const TextStyle(fontSize: 15),),
+                          const SizedBox(height: 15,),
                           SvgPicture.asset("lib/Assets/Images/cizgi.svg",width: 150,),
-                          SizedBox(height: 15,),
+                          const SizedBox(height: 15,),
                           SvgPicture.asset("lib/Assets/Images/segment.svg",width: 115,),
                         ],
                       ),
@@ -218,11 +218,11 @@ class _HomeState extends State<Home> {
                   decoration: Themes.decor,
                   alignment: Alignment.center,
                   margin: const EdgeInsets.symmetric(vertical: 25),
-                  padding: EdgeInsets.all(20),
-                  child: loading ? CircularProgressIndicator() : Column(
+                  padding: const EdgeInsets.all(20),
+                  child: loading ? const CircularProgressIndicator() : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("${monthStr(DateTime.now())} ${DateTime.now().year}",style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text("${monthStr(DateTime.now())} ${DateTime.now().year}",style: const TextStyle(fontWeight: FontWeight.bold),),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 7,horizontal: 3),
                         child: Row(
@@ -263,7 +263,7 @@ class _HomeState extends State<Home> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Mesai Saatleri",style: TextStyle(color: Colors.black12,fontWeight: FontWeight.bold,fontSize: 13),),
+                            const Text("Mesai Saatleri",style: TextStyle(color: Colors.black12,fontWeight: FontWeight.bold,fontSize: 13),),
                             SvgPicture.asset("lib/Assets/Images/segment.svg",width: 95,),
                           ],
                         ),

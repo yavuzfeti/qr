@@ -27,7 +27,7 @@ class _ProcessHistoryState extends State<ProcessHistory> {
   String? id;
 
   int giris = 0;
-  int cikis = 1;
+  int cikis = 0;
 
   int index = 0;
   bool empty = false;
@@ -56,10 +56,10 @@ class _ProcessHistoryState extends State<ProcessHistory> {
       for (var value in response)
       {
         String valuedate = dateToDartTrans(value["updated_at"]);
-        if (value["action"] == "0")
+        if (value["action"] == "1")
         {
           giris++;
-        } else if (value["action"] == "1") {
+        } else if (value["action"] == "0") {
           cikis++;
         }
         if (valuedate==dateToDartTrans(DateTime.now()))
@@ -192,7 +192,7 @@ class _ProcessHistoryState extends State<ProcessHistory> {
                         return Column(
                           children: [
                             ListTile(
-                              title: Text(day[index]["action"] == "0" ? "Giriş" : "Çıkış",style: TextStyle(fontSize: 14)),
+                              title: Text(day[index]["action"] == "1" ? "Giriş" : "Çıkış",style: const TextStyle(fontSize: 14)),
                               subtitle: Text(DateFormat("dd.MM.yyyy:HH.mm").format((DateTime.parse(day[index]["updated_at"])))),
                             ),
                             Container(

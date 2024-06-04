@@ -114,8 +114,6 @@ class _LoginState extends State<Login> {
       await NotificationBackground.add(response["response"]["current_team_id"].toString());
       await NotificationBackground.add(response["response"]["company"].toString());
 
-      print(response);
-
       Navigator.pushAndRemoveUntil(
         navKey.currentState!.context,
         MaterialPageRoute(builder: (context) => Base()),
